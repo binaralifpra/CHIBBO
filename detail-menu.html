@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Detail Menu</title>
+
+<style>
+.screen{
+    position:absolute;
+    top:0;
+    left:0;
+
+    width:100%;
+    min-height:100%;
+
+    background:white;
+
+    opacity:0;
+    visibility:hidden;
+
+    transform:translateX(100%);
+    transition:.5s;
+}
+
+.screen.active{
+    opacity:1;
+    visibility:visible;
+    transform:translateX(0);
+}
+body{
+    margin:0;
+    background:#f7f7f7;
+    font-family:Segoe UI;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:40px;
+}
+
+.detail-box{
+    background:white;
+    border-radius:24px;
+    padding:40px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.top{
+    display:flex;
+    gap:40px;
+}
+
+.left{
+    width:400px;
+}
+
+.left img{
+    width:100%;
+}
+
+.right{
+    flex:1;
+}
+
+.right h1{
+    margin-bottom:15px;
+}
+
+.deskripsi{
+    color:#666;
+    line-height:1.8;
+}
+
+.harga{
+    margin-top:20px;
+
+    color:#c80909;
+    font-size:32px;
+    font-weight:700;
+}
+
+.nutrition{
+    margin-top:35px;
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+}
+
+.card{
+    background:linear-gradient(
+        135deg,
+        #c80909,
+        #e53935
+    );
+
+    border-radius:16px;
+
+    padding:10px;
+    text-align:center;
+
+    box-shadow:0 10px 25px rgba(200,9,9,.3);
+
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card span{
+    display:block;
+    color:rgba(255,255,255,.85);
+
+    margin-bottom:8px;
+}
+
+.card strong{
+    font-size:22px;
+    color:white;
+}
+
+.kembali{
+    margin-bottom:25px;
+
+    background:#c80909;
+    color:white;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+}
+
+.stok-info{
+    margin-top:10px;
+    color:#888;
+    font-weight:600;
+}
+@media (max-width: 768px){
+    .top{ flex-direction:column; }
+    .left{ width:100%; }
+    .nutrition{ grid-template-columns:repeat(2,1fr); }
+    .container{ padding:20px; }
+    .detail-box{ padding:24px; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<button
+onclick="history.back()"
+class="kembali">
+← Kembali
+</button>
+
+<div class="detail-box">
+
+<div class="top">
+
+<div class="left">
+<img id="gambar">
+</div>
+
+<div class="right">
+
+<h1 id="nama"></h1>
+
+<p
+id="deskripsi"
+class="deskripsi">
+</p>
+
+<div
+id="harga"
+class="harga">
+</div>
+
+<div id="stokInfo" class="stok-info"></div>
+
+</div>
+
+</div>
+
+<div class="nutrition">
+
+<div class="card">
+<span>Protein</span>
+<strong id="protein"></strong>
+</div>
+
+<div class="card">
+<span>Karbo</span>
+<strong id="karbo"></strong>
+</div>
+
+<div class="card">
+<span>Lemak</span>
+<strong id="lemak"></strong>
+</div>
+
+<div class="card">
+<span>Kalori</span>
+<strong id="kalori"></strong>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+    import { ambilMenu, rupiah } from "./store.js";
+
+    // id menu dari URL (?id=...), atau dari localStorage untuk link lama
+    const idMenu = new URLSearchParams(location.search).get("id") || localStorage.getItem("menuDipilih");
+    const data = idMenu ? await ambilMenu(idMenu) : null;
+
+    if (!data) {
+        document.querySelector(".detail-box").innerHTML = "<h2>Menu tidak ditemukan.</h2>";
+    } else {
+        document.title = data.nama + " - CHIBBO";
+        document.getElementById("gambar").src = data.gambar;
+        document.getElementById("gambar").alt = data.nama;
+        document.getElementById("nama").textContent = data.nama;
+        document.getElementById("deskripsi").textContent = data.deskripsi;
+        document.getElementById("harga").textContent = rupiah(data.harga);
+
+        const stok = document.getElementById("stokInfo");
+        if (data.aktif === false) stok.textContent = "Menu sedang tidak tersedia";
+        else if (data.stok <= 0) stok.textContent = "Stok habis";
+        else stok.textContent = "Stok tersedia: " + data.stok;
+
+        const gizi = data.gizi || {};
+        const adaGizi = ["protein", "karbo", "lemak", "kalori"].some(k => gizi[k]);
+        if (adaGizi) {
+            ["protein", "karbo", "lemak", "kalori"].forEach(k => {
+                document.getElementById(k).textContent = gizi[k] || "-";
+            });
+        } else {
+            document.querySelector(".nutrition").style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>

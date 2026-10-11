@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Outlet Dine In - CHIBBO</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* RESET & BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f6fa;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* NAVIGATION MENU & GLASSMORPHISM DROPDOWN */
+        .main-nav {
+            background-color: #c80909;
+            box-shadow: 0 4px 12px rgba(200, 9, 9, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #fefefe;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ff9f43;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-toggle::after {
+            content: "▲";
+            font-size: 0.6rem;
+            color: #ff9f43;
+            transition: transform 0.2s;
+            transform: rotate(180deg);
+        }
+
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(0deg);
+        }
+
+        .dropdown-menu-panel {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 550px;
+            padding: 24px;
+            background: rgba(245, 245, 245, 0.65);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            display: none;
+            z-index: 999;
+            margin-top: 8px;
+        }
+
+        .dropdown-menu-panel::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: transparent;
+        }
+
+        .dropdown:hover .dropdown-menu-panel {
+            display: block;
+        }
+
+        .menu-grid-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+        }
+
+        .menu-box-btn {
+            background-color: #ffffff;
+            color: #c80909 !important;
+            text-align: center;
+            padding: 16px 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .col-3 {
+            grid-column: span 2;
+        }
+
+        .menu-box-btn:hover {
+            background-color: #c80909;
+            color: #ffffff !important;
+            box-shadow: 0 6px 15px rgba(200, 9, 9, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* --- SECTION MAIN CONTENT OUTLET --- */
+        .content-section {
+            padding: 50px 0;
+            flex: 1;
+        }
+
+        .header-content {
+            margin-bottom: 30px;
+            border-left: 5px solid #c80909;
+            padding-left: 15px;
+        }
+
+        .header-content h1 {
+            font-size: 2rem;
+            color: #1a1a1a;
+        }
+
+        .header-content p {
+            color: #666;
+            margin-top: 5px;
+        }
+
+
+        /* KARTU GRID OUTLET */
+        .outlet-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top h3 {
+            font-size: 1.1rem;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .distance {
+            background: #2ed573;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .address {
+            color: #555;
+            margin: 10px 0 20px 0;
+            font-size: 14px;
+            flex-grow: 1;
+        }
+
+        .features {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .feature {
+            background: #f1f3f6;
+            color: #444;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn {
+            width: 100%;
+            border: none;
+            padding: 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            background: #ff9f43;
+            color: white;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #e08528;
+        }
+
+        /* --- FOOTER CHIBBO --- */
+        .main-footer {
+            background-color: #c80909; 
+            color: #ffffff;
+            padding: 35px 0 20px 0;
+            font-size: 0.8rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr; 
+            gap: 25px; 
+            margin-bottom: 25px;
+        }
+
+        .footer-col h3, .footer-col h4 {
+            font-size: 0.9rem; 
+            text-transform: uppercase;
+            margin-bottom: 12px; 
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-col p {
+            margin-bottom: 6px;
+            color: #e0e0e0;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 6px; 
+        }
+
+        .footer-col ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #ff9f43; 
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15); 
+            color: #dcdcdc;
+            font-size: 0.75rem; 
+        }
+
+        /* RESPONSIVE LAYOUT */
+        @media (max-width: 992px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+            .dropdown-menu-panel {
+                width: 90vw;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none; 
+            }
+            .footer-grid {
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+        }
+        .card-nonaktif img {
+        filter: grayscale(1);
+        opacity: 0.6;
+    }
+
+    .card .btn:disabled {
+        background: #bbb;
+        cursor: not-allowed;
+        box-shadow: none;
+        transform: none;
+    }
+</style>
+</head>
+<body>
+
+    <!-- HEADER / NAVIGATION MENU -->
+    <nav class="main-nav">
+        <div class="container nav-container">
+            <a href="dasar.html" class="logo">CHIBBO</a>
+            <ul class="nav-menu">
+                <li><a href="dasar.html">Beranda</a></li>
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Menu</a>
+                
+                    <div class="dropdown-menu-panel">
+                        <div class="menu-grid-container">
+                            <a href="menu.html?kategori=chicken" class="menu-box-btn col-3">Chicken</a>
+                            <a href="menu.html?kategori=snack" class="menu-box-btn col-3">Snack</a>
+                            <a href="menu.html?kategori=dessert" class="menu-box-btn col-3">Dessert</a>
+                            <a href="menu.html?kategori=drink" class="menu-box-btn col-3">Drink</a>
+                            <a href="menu.html?kategori=combo" class="menu-box-btn col-3">Combo Meal</a>
+                            <a href="menu.html?kategori=burger" class="menu-box-btn col-3">Burger</a>
+                        </div>
+                    </div>
+                </li>
+                
+                <li><a href="order.html">Order</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT KONTEN OUTLET -->
+    <main class="content-section">
+        <div class="container">
+
+            <div class="header-content">
+                <h1 id="judulOutlet"></h1>
+                <p id="deskripsiOutlet"></p>
+            </div>
+
+            <div id="outletList" class="outlet-list"></div>
+        </div>
+    </main>
+
+
+    <!-- FOOTER CHIBBO -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-col">
+                    <h3>PT Fast Food Indonesia Tbk</h3>
+                    <p>Alamat: Jl. MT Haryono Kav 7 Jakarta Selatan 12810, Indonesia</p>
+                    <p><strong>Operating hours</strong><br>
+                       Weekday: 08:00 - 20:00<br>
+                       Weekend: 10:00 - 19:00</p>
+                    <p>Telephone: 14022</p>
+                    <p>E-mail: info@kfcindonesia.com</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Layanan</h4>
+                    <ul>
+                        <li><a href="#">Delivery Order</a></li>
+                        <li><a href="#">Dine in</a></li>
+                        <li><a href="#">Take Away</a></li>
+                        <li><a href="#">Catering</a></li>
+                        <li><a href="#">Drive Thru</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Karir</h4>
+                    <ul>
+                        <li><a href="#">Karir</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Info</h4>
+                    <ul>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="aboutus.html">About Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Allergen Info</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 CHIBBO. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script type="module">
+        import { dengarOutlet, esc } from "./store.js";
+
+        const params = new URLSearchParams(window.location.search);
+        const layanan = params.get("layanan");
+
+        const judul = document.getElementById("judulOutlet");
+        const deskripsi = document.getElementById("deskripsiOutlet");
+
+        if (layanan === "dinein") {
+            judul.innerHTML = "🍽️ Pilih Outlet Dine In";
+            deskripsi.innerHTML = "Pilih outlet terdekat untuk menikmati makanan langsung di tempat.";
+        } else if (layanan === "takeaway") {
+            judul.innerHTML = "🛍️ Pilih Outlet Take Away";
+            deskripsi.innerHTML = "Pilih outlet untuk mengambil pesanan Anda.";
+        } else if (layanan === "delivery") {
+            judul.innerHTML = "🛵 Pilih Outlet Delivery";
+            deskripsi.innerHTML = "Pilih outlet yang akan memproses pengiriman pesanan Anda.";
+        } else {
+            judul.innerHTML = "📍 Pilih Outlet";
+            deskripsi.innerHTML = "Silakan pilih outlet yang tersedia.";
+        }
+
+        function pilihOutlet(outlet) {
+            if (!layanan) {
+                location.href = "order.html";
+                return;
+            }
+            localStorage.setItem("layanan", layanan);
+            localStorage.setItem("outlet", outlet.nama);
+            localStorage.setItem("outletId", outlet.id);
+            location.href = "menu.html";
+        }
+
+        // Daftar outlet dikelola admin dan diperbarui realtime
+        dengarOutlet((list) => {
+            const wadah = document.getElementById("outletList");
+            wadah.innerHTML = "";
+
+            list.forEach(o => {
+                const mendukung = !layanan || o.layanan?.[layanan] !== false;
+                const bisaDipilih = o.buka !== false && mendukung;
+                const alasan = o.buka === false ? "Outlet Tutup" : "Layanan tidak tersedia";
+
+                const card = document.createElement("div");
+                card.className = "card" + (bisaDipilih ? "" : " card-nonaktif");
+                card.innerHTML = `
+                    <img src="${esc(o.gambar)}" alt="${esc(o.nama)}">
+                    <div class="content">
+                        <div class="top">
+                            <h3>${esc(o.nama)}</h3>
+                        </div>
+                        <p class="address">${esc(o.alamat)}</p>
+                        <div class="features">
+                            ${(o.fitur || []).map(f => `<span class="feature">${esc(f)}</span>`).join("")}
+                        </div>
+                        <button class="btn" ${bisaDipilih ? "" : "disabled"}>
+                            ${bisaDipilih ? "Pilih Outlet" : alasan}
+                        </button>
+                    </div>
+                `;
+                card.querySelector(".btn").onclick = () => pilihOutlet(o);
+                wadah.appendChild(card);
+            });
+
+            if (list.length === 0) {
+                wadah.innerHTML = "<p>Belum ada outlet.</p>";
+            }
+        });
+    </script>
+    <script type="module" src="auth-nav.js"></script>
+</body>
+</html>

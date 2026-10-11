@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CHIBBO</title>
+    <style>
+        /* RESET & BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f6fa;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Memastikan footer tetap berada di bawah */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 1. TOP BAR / HEADER */
+        .top-bar {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 10px 0;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+        
+        .top-bar a {
+            color: #ddd;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        
+        .top-bar a:hover {
+            color: #ff9f43;
+        }
+
+        /* 2. NAVIGATION MENU */
+        .main-nav {
+    background-color: #c80909;
+    box-shadow: 0 4px 12px rgba(200, 9, 9, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #fefefe;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.nav-menu a:hover {
+    color: #ff9f43;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dropdown-toggle::after {
+    content: "▲";
+    font-size: 0.6rem;
+    color: #ff9f43;
+    transition: transform 0.2s;
+    transform: rotate(180deg);
+}
+
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(0deg);
+}
+
+.dropdown-menu-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 550px;
+    padding: 24px;
+
+    background: rgba(245, 245, 245, 0.65);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    display: none;
+    z-index: 999;
+    margin-top: 8px;
+}
+
+.dropdown-menu-panel::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: transparent;
+}
+
+.dropdown:hover .dropdown-menu-panel {
+    display: block;
+}
+
+.menu-grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+}
+
+.menu-box-btn {
+    background-color: #ffffff;
+    color: #c80909 !important;
+    text-align: center;
+    padding: 16px 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.2s ease-in-out;
+}
+
+.col-3 {
+    grid-column: span 2;
+}
+
+.menu-box-btn:hover {
+    background-color: #c80909;
+    color: #ffffff !important;
+    box-shadow: 0 6px 15px rgba(200, 9, 9, 0.25);
+    transform: translateY(-2px);
+}
+
+/* LOGIN SECTION */
+
+.login-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background Shape */
+
+.login-section::before {
+    content: "";
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    background: rgba(200, 9, 9, 0.08);
+    border-radius: 50%;
+    top: -120px;
+    left: -120px;
+}
+
+.login-section::after {
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: rgba(255, 159, 67, 0.12);
+    border-radius: 50%;
+    bottom: -100px;
+    right: -100px;
+}
+
+.login-card {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 24px;
+
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+
+.login-card h2 {
+    text-align: center;
+    color: #c80909;
+    margin-bottom: 10px;
+    font-size: 2rem;
+}
+
+.login-card p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #c80909;
+    box-shadow: 0 0 0 3px rgba(200, 9, 9, 0.1);
+}
+
+.login-btn {
+    width: 100%;
+    border: none;
+    background: #c80909;
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background: #a80707;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(200, 9, 9, 0.25);
+}
+
+.login-btn:disabled,
+.google-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* TAB MASUK / DAFTAR */
+
+.auth-tabs {
+    display: flex;
+    background: #f0f0f0;
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 24px;
+}
+
+.auth-tab {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.auth-tab.active {
+    background: #ffffff;
+    color: #c80909;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.auth-message {
+    display: none;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+}
+
+.auth-message.error {
+    display: block;
+    background: rgba(200, 9, 9, 0.08);
+    color: #a80707;
+}
+
+.auth-message.success {
+    display: block;
+    background: rgba(39, 174, 96, 0.1);
+    color: #1e8449;
+}
+
+.forgot-link {
+    display: block;
+    text-align: right;
+    margin: -8px 0 18px;
+    font-size: 0.85rem;
+    color: #c80909;
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0;
+    color: #999;
+    font-size: 0.85rem;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+}
+
+.google-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #ffffff;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.google-btn:hover {
+    border-color: #c80909;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+        /* --- UKURAN FOOTER YANG SUDAH DIKECILKAN --- */
+        .main-footer {
+            background-color: #c80909; 
+            color: #ffffff;
+            padding: 35px 0 20px 0;
+            font-size: 0.8rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr; 
+            gap: 25px; 
+            margin-bottom: 25px;
+        }
+
+        .footer-col h3, .footer-col h4 {
+            font-size: 0.9rem; 
+            text-transform: uppercase;
+            margin-bottom: 12px; 
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-col p {
+            margin-bottom: 6px;
+            color: #e0e0e0;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 6px; 
+        }
+
+        .footer-col ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #ff9f43; 
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15); 
+            color: #dcdcdc;
+            font-size: 0.75rem; 
+        }
+
+        /* RESPONSIVE LAYOUT (Untuk HP / Tablet) */
+        @media (max-width: 992px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+            .nav-menu {
+                display: none; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <div class="container nav-container">
+            <a href="dasar.html" class="logo" style="text-decoration: none; color: #ffffff;">CHIBBO</a>
+            <ul class="nav-menu">
+                <li><a href="dasar.html">Beranda</a></li>
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Menu</a>
+                
+                    <div class="dropdown-menu-panel">
+                        <div class="menu-grid-container">
+                            <a href="menu.html?kategori=chicken" class="menu-box-btn col-3">Chicken</a>
+                            <a href="menu.html?kategori=snack" class="menu-box-btn col-3">Snack</a>
+                            <a href="menu.html?kategori=dessert" class="menu-box-btn col-3">Dessert</a>
+                            <a href="menu.html?kategori=drink" class="menu-box-btn col-3">Drink</a>
+                            <a href="menu.html?kategori=combo" class="menu-box-btn col-3">Combo Meal</a>
+                            <a href="menu.html?kategori=burger" class="menu-box-btn col-3">Burger</a>
+                        </div>
+                    </div>
+                </li>
+                
+                <li><a href="order.html">Order</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="login.html" style="color: #ff9f43;">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="login-section">
+        <div class="login-card">
+            <h2 id="judulForm">Login</h2>
+            <p id="subjudulForm">Masuk ke akun CHIBBO Anda untuk melanjutkan.</p>
+
+            <div class="auth-tabs">
+                <button type="button" class="auth-tab active" data-mode="login">Masuk</button>
+                <button type="button" class="auth-tab" data-mode="register">Daftar</button>
+            </div>
+
+            <div id="pesanAuth" class="auth-message"></div>
+
+            <form id="formAuth">
+                <div class="form-group" id="grupNama" style="display:none;">
+                    <label for="name">Nama Lengkap</label>
+                    <input type="text" id="name" placeholder="Masukkan nama Anda">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Alamat Email</label>
+                    <input type="email" id="email" placeholder="contoh@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Minimal 6 karakter" minlength="6" required>
+                </div>
+
+                <a href="#" id="lupaPassword" class="forgot-link">Lupa password?</a>
+
+                <button type="submit" id="tombolSubmit" class="login-btn">Masuk</button>
+            </form>
+
+            <div class="divider"><span>atau</span></div>
+
+            <button type="button" id="tombolGoogle" class="google-btn">
+                <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+                    <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/>
+                    <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+                    <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+                    <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/>
+                </svg>
+                Masuk dengan Google
+            </button>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-col">
+                    <h3>PT Fast Food Indonesia Tbk</h3>
+                    <p>Alamat: Jl. MT Haryono Kav 7 Jakarta Selatan 12810, Indonesia</p>
+                    <p><strong>Operating hours</strong><br>
+                       Weekday: 08:00 - 20:00<br>
+                       Weekend: 10:00 - 19:00</p>
+                    <p>Telephone: 14022</p>
+                    <p>E-mail: info@kfcindonesia.com</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Layanan</h4>
+                    <ul>
+                        <li><a href="#">Delivery Order</a></li>
+                        <li><a href="#">Dine in</a></li>
+                        <li><a href="#">Take Away</a></li>
+                        <li><a href="#">Catering</a></li>
+                        <li><a href="#">Drive Thru</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Karir</h4>
+                    <ul>
+                        <li><a href="#">Karir</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Info</h4>
+                    <ul>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Allergen Info</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 CHIBBO. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, simpanProfilUser } from "./firebase-config.js";
+        import {
+            GoogleAuthProvider,
+            signInWithPopup,
+            signInWithEmailAndPassword,
+            createUserWithEmailAndPassword,
+            sendPasswordResetEmail,
+            updateProfile,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+        let mode = "login";
+
+        const form = document.getElementById("formAuth");
+        const pesan = document.getElementById("pesanAuth");
+        const tombolSubmit = document.getElementById("tombolSubmit");
+        const tombolGoogle = document.getElementById("tombolGoogle");
+        const grupNama = document.getElementById("grupNama");
+        const inputNama = document.getElementById("name");
+        const inputEmail = document.getElementById("email");
+        const inputPassword = document.getElementById("password");
+        const lupaPassword = document.getElementById("lupaPassword");
+
+        // Setelah login, kembali ke halaman asal (?redirect=...) atau ke beranda
+        // (hanya halaman lokal .html, agar tidak bisa dipakai untuk redirect ke situs lain)
+        const redirectParam = new URLSearchParams(location.search).get("redirect") || "";
+        const redirect = /^[\w-]+\.html(\?[\w=&-]*)?$/.test(redirectParam) ? redirectParam : "dasar.html";
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) return;
+            await simpanProfilUser(user);
+            location.href = redirect;
+        });
+
+        function tampilPesan(teks, jenis = "error") {
+            pesan.textContent = teks;
+            pesan.className = "auth-message " + jenis;
+        }
+
+        function setLoading(loading) {
+            tombolSubmit.disabled = loading;
+            tombolGoogle.disabled = loading;
+        }
+
+        function terjemahError(err) {
+            const daftar = {
+                "auth/invalid-email": "Format email tidak valid.",
+                "auth/invalid-credential": "Email atau password salah.",
+                "auth/wrong-password": "Email atau password salah.",
+                "auth/user-not-found": "Akun dengan email ini belum terdaftar.",
+                "auth/email-already-in-use": "Email sudah terdaftar. Silakan masuk.",
+                "auth/weak-password": "Password minimal 6 karakter.",
+                "auth/too-many-requests": "Terlalu banyak percobaan. Coba lagi nanti.",
+                "auth/popup-closed-by-user": "Login Google dibatalkan.",
+                "auth/popup-blocked": "Popup diblokir browser. Izinkan popup lalu coba lagi.",
+                "auth/operation-not-allowed": "Metode login ini belum diaktifkan di Firebase Console.",
+                "auth/unauthorized-domain": "Domain ini belum diizinkan di Firebase Console (Authentication > Settings > Authorized domains)."
+            };
+            return daftar[err.code] || "Terjadi kesalahan: " + err.message;
+        }
+
+        // Ganti tab Masuk / Daftar
+        document.querySelectorAll(".auth-tab").forEach((tab) => {
+            tab.addEventListener("click", () => {
+                mode = tab.dataset.mode;
+                document.querySelectorAll(".auth-tab").forEach((t) => t.classList.toggle("active", t === tab));
+
+                const daftar = mode === "register";
+                grupNama.style.display = daftar ? "block" : "none";
+                inputNama.required = daftar;
+                lupaPassword.style.display = daftar ? "none" : "block";
+                tombolSubmit.textContent = daftar ? "Daftar" : "Masuk";
+                document.getElementById("judulForm").textContent = daftar ? "Daftar" : "Login";
+                document.getElementById("subjudulForm").textContent = daftar
+                    ? "Buat akun CHIBBO baru dengan email Anda."
+                    : "Masuk ke akun CHIBBO Anda untuk melanjutkan.";
+                pesan.className = "auth-message";
+            });
+        });
+
+        // Login / daftar dengan email
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            setLoading(true);
+
+            const email = inputEmail.value.trim();
+            const password = inputPassword.value;
+
+            try {
+                if (mode === "register") {
+                    const cred = await createUserWithEmailAndPassword(auth, email, password);
+                    await updateProfile(cred.user, { displayName: inputNama.value.trim() });
+                } else {
+                    await signInWithEmailAndPassword(auth, email, password);
+                }
+            } catch (err) {
+                tampilPesan(terjemahError(err));
+                setLoading(false);
+            }
+        });
+
+        // Login dengan Google
+        tombolGoogle.addEventListener("click", async () => {
+            setLoading(true);
+            try {
+                await signInWithPopup(auth, new GoogleAuthProvider());
+            } catch (err) {
+                tampilPesan(terjemahError(err));
+                setLoading(false);
+            }
+        });
+
+        // Reset password
+        lupaPassword.addEventListener("click", async (e) => {
+            e.preventDefault();
+            const email = inputEmail.value.trim();
+            if (!email) {
+                tampilPesan("Isi email Anda terlebih dahulu, lalu klik 'Lupa password?'.");
+                return;
+            }
+            try {
+                await sendPasswordResetEmail(auth, email);
+                tampilPesan("Link reset password sudah dikirim ke " + email + ".", "success");
+            } catch (err) {
+                tampilPesan(terjemahError(err));
+            }
+        });
+    </script>
+
+</body>
+</html>

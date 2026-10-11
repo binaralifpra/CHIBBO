@@ -1,0 +1,1281 @@
+    <!DOCTYPE html>
+    <html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Menu - CHIBBO</title>
+        <style>
+
+            /* RESET & BASE STYLES */
+            .product-image{
+    width:100%;
+    height:220px;
+    object-fit:contain;
+    padding:15px;
+    background:#fff;
+    cursor:pointer;
+
+    transition:transform .4s ease;
+}
+
+.product-image:hover{
+    transform: scale(1.18) rotate(-3deg);
+}
+            .info-pesanan{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    background:#fff;
+    border:1px solid #e8e8e8;
+    border-radius:16px;
+
+    padding:18px 24px;
+    margin-bottom:30px;
+
+    box-shadow:0 6px 20px rgba(0,0,0,.06);
+}
+
+.info-content{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.info-box{
+    display:flex;
+    flex-direction:column;
+}
+
+.info-label{
+    font-size:12px;
+    color:#888;
+    font-weight:500;
+}
+
+.info-value{
+    font-size:16px;
+    font-weight:700;
+    color:#222;
+}
+
+.info-divider{
+    width:1px;
+    height:40px;
+    background:#e5e7eb;
+}
+
+.ubah-btn{
+    border:none;
+    background:#c80909;
+    color:white;
+
+    padding:12px 18px;
+    border-radius:12px;
+
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.ubah-btn:hover{
+    background:#a30707;
+    border:none;
+    background:#c80909;
+    color:white;
+
+    padding:10px 16px;
+    border-radius:10px;
+
+    cursor:pointer;
+    font-weight:600;
+
+    transition:.3s;
+}
+
+            .footer-keranjang{
+    position: sticky;
+    bottom: 0;
+
+    background: white;
+
+    padding-top: 12px;
+    margin-top: 10px;
+
+    border-top: 1px solid #eee;
+}
+            .popup-order{
+        text-align:center;
+        padding:35px 30px;
+    }
+
+    .popup-icon{
+        width:80px;
+        height:80px;
+        margin:0 auto 20px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        font-size:40px;
+
+        background:#fff5e9;
+        border-radius:50%;
+    }
+
+    .popup-order h3{
+        font-size:24px;
+        color:#222;
+        margin-bottom:12px;
+    }
+
+    .popup-order p{
+        color:#666;
+        line-height:1.6;
+        margin-bottom:25px;
+    }
+
+    .btn-pilih{
+        width:100%;
+        border:none;
+        padding:14px;
+
+        background:#c80909;
+        color:white;
+
+        border-radius:12px;
+
+        font-size:16px;
+        font-weight:600;
+
+        cursor:pointer;
+        transition:.3s;
+    }
+
+    .btn-pilih:hover{
+        background:#a30707;
+        transform:translateY(-2px);
+    }
+            .popup-overlay{
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.5);
+
+        display: none;
+        justify-content: center;
+        align-items: center;
+
+        z-index: 99999;
+    }
+
+    .popup-overlay.show{
+        display: flex;
+    }
+
+    .popup-box{
+        background: white;
+        width: 90%;
+        max-width: 400px;
+
+        padding: 25px;
+        border-radius: 20px;
+
+        text-align: center;
+    }
+
+    .popup-box h3{
+        margin-bottom: 10px;
+    }
+
+    .popup-box p{
+        margin-bottom: 20px;
+    }
+
+    .popup-action{
+        display: flex;
+        gap: 10px;
+    }
+
+    .popup-action button{
+        flex: 1;
+        border: none;
+        padding: 12px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .btn-batal{
+        background: #ddd;
+    }
+
+    .btn-hapus{
+        background: #dc2626;
+        color: white;
+    }
+            .bayar-btn{
+        width:100%;
+        margin-top:15px;
+        padding:12px;
+        border:none;
+        border-radius:12px;
+        background:#c80909;
+        color:white;
+        font-size:16px;
+        font-weight:600;
+        cursor:pointer;
+        transition:.3s;
+    }
+
+    .bayar-btn:hover{
+        background:#a10707;
+    }
+
+    .bayar-btn:disabled{
+        background:#ccc;
+        cursor:not-allowed;
+    }
+
+            .keranjang{
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: 80%;
+        max-width: 1000px;
+
+        background: white;
+        padding: 15px 25px;
+
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,.15);
+
+        z-index: 9999;
+    }
+
+    .cart-summary{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+    }
+
+    .detail-btn{
+        border:none;
+        background:#ff9f43;
+        color:white;
+        padding:8px 16px;
+        border-radius:10px;
+        cursor:pointer;
+    }
+
+    .hapus-btn{
+        border:none;
+        background:#dc2626;
+        color:white;
+        padding:8px 16px;
+        border-radius:10px;
+        cursor:pointer;
+        font-weight:600;
+    }
+
+    .hapus-btn:hover{
+        background:#b91c1c;
+    }
+
+    .detail-keranjang{
+    display:none;
+    margin-top:15px;
+    border-top:1px solid #eee;
+    padding-top:15px;
+
+    max-height:300px;
+    overflow-y:auto;
+    padding-right:8px;
+}
+
+    .detail-keranjang.show{
+        display:block;
+    }
+
+    .cart-item{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:10px 0;
+        border-bottom:1px solid #eee;
+    }
+
+    .qty-box{
+        display:flex;
+        align-items:center;
+        gap:10px;
+    }
+
+    .qty-box button{
+        width:30px;
+        height:30px;
+        border:none;
+        border-radius:50%;
+        background:#ff9f43;
+        color:white;
+        cursor:pointer;
+        font-weight:bold;
+    }
+
+    .qty-box span{
+        min-width:20px;
+        text-align:center;
+    }
+    .total {
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #c80909;
+    }
+            .info-pesanan {
+        width: 100%;
+        background: #fff8e8;
+        border-left: 5px solid #ff9f43;
+        border-radius: 12px;
+
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+
+        padding: 15px 25px;
+        margin-bottom: 30px;
+
+        font-size: 15px;
+        font-weight: 600;
+
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            body {
+                background-color: #f5f6fa;
+                color: #333;
+                line-height: 1.6;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+
+            .container {
+                width: 90%;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            /* 1. TOP BAR / HEADER */
+            .top-bar {
+                background-color: #1a1a1a;
+                color: #ffffff;
+                padding: 10px 0;
+                font-size: 0.85rem;
+                text-align: right;
+            }
+            
+            .top-bar a {
+                color: #ddd;
+                text-decoration: none;
+                margin-left: 20px;
+            }
+            
+            .top-bar a:hover {
+                color: #ff9f43;
+            }
+
+            /* 2. NAVIGATION MENU */
+            .main-nav {
+                background-color: #c80909;
+                box-shadow: 0 4px 12px rgba(200, 9, 9, 0.2);
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+            .nav-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 0;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #ffffff;
+                text-decoration: none;
+            }
+
+            .nav-menu {
+                display: flex;
+                list-style: none;
+                gap: 30px;
+                align-items: center;
+            }
+
+            .nav-menu a {
+                text-decoration: none;
+                color: #fefefe;
+                font-weight: 600;
+                transition: color 0.3s;
+            }
+
+            .nav-menu a:hover {
+                color: #ff9f43;
+            }
+
+            /* --- DROPDOWN GLASSMORPHISM NAVIGATION --- */
+            .dropdown {
+                position: relative;
+            }
+
+            .dropdown-toggle {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .dropdown-toggle::after {
+                content: "▲"; 
+                font-size: 0.6rem;
+                color: #ff9f43; 
+                transition: transform 0.2s;
+                transform: rotate(180deg); 
+            }
+
+            .dropdown:hover .dropdown-toggle::after {
+                transform: rotate(0deg);
+            }
+
+            .dropdown-menu-panel {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 550px; 
+                padding: 24px;
+                background: rgba(245, 245, 245, 0.65); 
+                backdrop-filter: blur(18px); 
+                -webkit-backdrop-filter: blur(18px);
+                border: 1px solid rgba(255, 255, 255, 0.5);
+                border-radius: 20px; 
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+                display: none; 
+                z-index: 999;
+                margin-top: 8px;
+            }
+
+            .dropdown-menu-panel::before {
+                content: "";
+                position: absolute;
+                top: -15px;
+                left: 0;
+                width: 100%;
+                height: 15px;
+                background: transparent;
+            }
+
+            .dropdown:hover .dropdown-menu-panel {
+                display: block;
+            }
+
+            .menu-grid-container {
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+                gap: 14px;
+            }
+
+            .menu-box-btn {
+                background-color: #ffffff;
+                color: #c80909 !important; 
+                text-align: center;
+                padding: 16px 10px;
+                font-size: 0.95rem;
+                font-weight: 600;
+                text-decoration: none;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); 
+                border: 1px solid rgba(255, 255, 255, 0.8);
+                transition: all 0.2s ease-in-out;
+            }
+
+            .col-3 {
+        grid-column: span 2;
+    }
+
+            .menu-box-btn:hover, .menu-box-btn.active {
+                background-color: #c80909;
+                color: #ffffff !important; 
+                box-shadow: 0 6px 15px rgba(200, 9, 9, 0.25);
+                transform: translateY(-2px);
+            }
+
+            /* --- MAIN KONTEN: LAYOUT KATALOG PRODUK AYAM --- */
+            .content-section {
+                padding: 50px 0;
+                flex: 1;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                color: #1a1a1a;
+                margin-bottom: 30px;
+                border-left: 5px solid #c80909;
+                padding-left: 15px;
+            }
+
+            /* Grid Item 3 Kolom Sesuai image_a44761.png */
+            .product-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 25px;
+            }
+
+            .product-card{
+    background-color: #ffffff;
+    border-radius: 16px;
+    overflow: hidden; /* biar gambar tidak keluar card */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.02);
+
+    transition: box-shadow 0.3s ease;
+}
+
+.product-card:hover{
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    /* hapus transform */
+}
+            .product-image-placeholder {
+                width: 100%;
+                height: 200px;
+                background-color: #eaebef;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #8a8d99;
+                font-size: 0.9rem;
+                position: relative;
+            }
+
+      /* Ikon gambar simulasi placeholder */
+            .product-image-placeholder::before {
+                content: "🖼️";
+                font-size: 2.5rem;
+                margin-bottom: 10px;
+                display: block;
+                text-align: center;
+            }
+
+            .product-info {
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+            }
+
+            .product-info h3 {
+                font-size: 1.2rem;
+                color: #1a1a1a;
+                margin-bottom: 8px;
+            }
+
+            .product-info p {
+                font-size: 0.9rem;
+                color: #666;
+                margin-bottom: 20px;
+                flex-grow: 1;
+            }
+
+            .product-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: auto;
+            }
+
+            .product-price {
+                font-weight: 700;
+                color: #c80909;
+                font-size: 1.1rem;
+            }
+
+            .order-btn {
+        background-color: #ff9f43;
+        color: #ffffff;
+        padding: 8px 18px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+            .order-btn:hover {
+                background-color: #e08528;
+            }
+
+            /* --- FOOTER --- */
+            .main-footer {
+                background-color: #c80909; 
+                color: #ffffff;
+                padding: 35px 0 20px 0;
+                font-size: 0.8rem;
+            }
+
+            .footer-grid {
+                display: grid;
+                grid-template-columns: 1.4fr 1fr 1fr 1fr; 
+                gap: 25px; 
+                margin-bottom: 25px;
+            }
+
+            .footer-col h3, .footer-col h4 {
+                font-size: 0.9rem; 
+                text-transform: uppercase;
+                margin-bottom: 12px; 
+                color: #ffffff;
+                letter-spacing: 0.5px;
+            }
+
+            .footer-col p {
+                margin-bottom: 6px;
+                color: #e0e0e0;
+                font-size: 0.8rem;
+                line-height: 1.5;
+            }
+
+            .footer-col ul {
+                list-style: none;
+            }
+
+            .footer-col ul li {
+                margin-bottom: 6px; 
+            }
+
+            .footer-col ul li a {
+                color: #e0e0e0;
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+
+            .footer-col ul li a:hover {
+                color: #ff9f43; 
+            }
+
+            .footer-bottom {
+                text-align: center;
+                padding-top: 15px;
+                border-top: 1px solid rgba(255, 255, 255, 0.15); 
+                color: #dcdcdc;
+                font-size: 0.75rem; 
+            }
+
+            /* RESPONSIVE LAYOUT */
+            @media (max-width: 992px) {
+                .product-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                .footer-grid {
+                    grid-template-columns: repeat(2, 1fr); 
+                }
+                .dropdown-menu-panel {
+                    width: 100%;
+                    max-width: 330px;
+                    right: -30px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .product-grid {
+                    grid-template-columns: 1fr;
+                }
+                .secondary-grid, .footer-grid {
+                    grid-template-columns: 1fr; 
+                    gap: 20px;
+                }
+                .nav-menu {
+                    display: none; 
+                }
+            }
+
+            /* FILTER KATEGORI */
+            .filter-bar {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 30px;
+            }
+
+            .filter-btn {
+                border: 1px solid #e3e3e3;
+                background: #ffffff;
+                color: #555;
+                padding: 10px 20px;
+                border-radius: 999px;
+                font-size: 0.95rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+            .filter-btn:hover {
+                border-color: #c80909;
+                color: #c80909;
+            }
+
+            .filter-btn.active {
+                background: #c80909;
+                border-color: #c80909;
+                color: #ffffff;
+                box-shadow: 0 6px 15px rgba(200, 9, 9, 0.25);
+            }
+
+            .filter-count {
+                font-weight: 400;
+                opacity: 0.75;
+                margin-left: 4px;
+            }
+
+            .menu-search {
+                width: 100%;
+                max-width: 360px;
+                padding: 12px 16px;
+                border: 1px solid #ddd;
+                border-radius: 12px;
+                font-size: 0.95rem;
+                margin-bottom: 18px;
+            }
+
+            .menu-search:focus {
+                outline: none;
+                border-color: #c80909;
+                box-shadow: 0 0 0 3px rgba(200, 9, 9, 0.1);
+            }
+
+            .menu-kosong {
+                grid-column: 1 / -1;
+                text-align: center;
+                color: #888;
+                padding: 40px 0;
+            }
+
+            .product-image.bisa-detail {
+                cursor: pointer;
+            }
+
+            .product-image-wrap {
+                position: relative;
+            }
+
+            .badge-stok {
+                position: absolute;
+                top: 12px;
+                left: 12px;
+                background: #ff9f43;
+                color: #ffffff;
+                font-size: 0.8rem;
+                font-weight: 700;
+                padding: 4px 12px;
+                border-radius: 999px;
+            }
+
+            .badge-stok.habis {
+                background: #555;
+            }
+
+            .product-card.habis .product-image {
+                filter: grayscale(1);
+                opacity: 0.6;
+            }
+
+            .order-btn:disabled {
+                background: #bbb;
+                cursor: not-allowed;
+                box-shadow: none;
+                transform: none;
+            }
+
+            .pengumuman {
+                display: none;
+                background: rgba(255, 159, 67, 0.15);
+                border: 1px solid rgba(255, 159, 67, 0.5);
+                color: #8a4b08;
+                padding: 14px 18px;
+                border-radius: 14px;
+                margin-bottom: 20px;
+                font-weight: 600;
+            }
+
+            .pengumuman.tutup {
+                background: rgba(200, 9, 9, 0.08);
+                border-color: rgba(200, 9, 9, 0.3);
+                color: #a80707;
+            }
+        </style>
+    </head>
+    <body>
+
+        <nav class="main-nav">
+            <div class="container nav-container">
+                <a href="dasar.html" class="logo">CHIBBO</a>
+                <ul class="nav-menu">
+                    <li><a href="dasar.html">Beranda</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Menu</a>
+                        <div class="dropdown-menu-panel">
+                            <div class="menu-grid-container">
+                                <a href="menu.html?kategori=chicken" class="menu-box-btn col-3">Chicken</a>
+                                <a href="menu.html?kategori=snack" class="menu-box-btn col-3">Snack</a>
+                                <a href="menu.html?kategori=dessert" class="menu-box-btn col-3">Dessert</a>
+                                <a href="menu.html?kategori=drink" class="menu-box-btn col-3">Drink</a>
+                                <a href="menu.html?kategori=combo" class="menu-box-btn col-3">Combo Meal</a>
+                                <a href="menu.html?kategori=burger" class="menu-box-btn col-3">Burger</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="order.html">Order</a></li>
+                    <li><a href="aboutus.html">About Us</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="content-section">
+            <div class="container">
+
+                <h2 class="section-title">Menu CHIBBO</h2>
+
+                <div id="pengumuman" class="pengumuman"></div>
+
+                <div id="infoPesanan" class="info-pesanan">
+                    <div class="info-content">
+                        <div class="info-box">
+                            <span class="info-label">Outlet</span>
+                            <span id="namaOutlet" class="info-value">-</span>
+                        </div>
+                        <div class="info-divider"></div>
+                        <div class="info-box">
+                            <span class="info-label">Layanan</span>
+                            <span id="jenisLayanan" class="info-value">-</span>
+                        </div>
+                    </div>
+                    <button onclick="ubahLayananOutlet()" class="ubah-btn">
+                        Ubah Informasi
+                    </button>
+                </div>
+
+                <input type="search" id="cariMenu" class="menu-search" placeholder="Cari menu...">
+
+                <div id="filterBar" class="filter-bar"></div>
+
+                <div id="productGrid" class="product-grid"></div>
+
+                <div id="keranjang" class="keranjang">
+                    <div class="cart-summary">
+                        <div>
+                            <strong id="jumlahMenu">0 Menu Pesanan</strong>
+                            <div id="totalRingkas">Rp 0</div>
+                        </div>
+                        <div style="display:flex; gap:10px;">
+                            <button onclick="toggleDetail()" class="detail-btn">
+                                Detail Pesanan
+                            </button>
+                            <button onclick="bukaPopupHapus()" class="hapus-btn">
+                                Hapus
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="detailKeranjang" class="detail-keranjang">
+                        <div id="daftarKeranjang"></div>
+                        <div class="footer-keranjang">
+                            <div class="total">
+                                Total: Rp <span id="totalHarga">0</span>
+                            </div>
+                            <button onclick="kePembayaran()" class="bayar-btn">
+                                Lanjut Pembayaran
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h3>PT Fast Food Indonesia Tbk</h3>
+                        <p>Alamat: Jl. MT Haryono Kav 7 Jakarta Selatan 12810, Indonesia</p>
+                        <p><strong>Operating hours</strong><br>
+                        Weekday: 08:00 - 20:00<br>
+                        Weekend: 10:00 - 19:00</p>
+                        <p>Telephone: 14022</p>
+                        <p>E-mail: info@kfcindonesia.com</p>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Layanan</h4>
+                        <ul>
+                            <li><a href="#">Delivery Order</a></li>
+                            <li><a href="#">Dine in</a></li>
+                            <li><a href="#">Take Away</a></li>
+                            <li><a href="#">Catering</a></li>
+                            <li><a href="#">Drive Thru</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Karir</h4>
+                        <ul>
+                            <li><a href="#">Karir</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Info</h4>
+                        <ul>
+                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="aboutus.html">About Us</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Allergen Info</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 CHIBBO. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <div id="popupHapus" class="popup-overlay">
+            <div class="popup-box">
+                <h3>Hapus Pesanan</h3>
+                <p>Pilih data yang ingin dihapus.</p>
+                <div class="popup-action" style="flex-direction:column;">
+                    <button onclick="hapusMenuSaja()" class="btn-hapus">
+                        Hapus Semua Menu
+                    </button>
+                    <button onclick="hapusSemuaData()" class="btn-hapus">
+                        Hapus Menu, Layanan & Outlet
+                    </button>
+                    <button onclick="tutupPopupHapus()">
+                        Batal
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="popupLayanan" class="popup-overlay">
+            <div class="popup-box popup-order">
+                <h3>Siap Pesan Menu Favoritmu?</h3>
+                <p>
+                    Sebelum menambahkan menu ke keranjang,
+                    pilih layanan dan outlet terlebih dahulu ya.
+                </p>
+                <div class="popup-action">
+                    <button onclick="window.location.href='order.html'" class="btn-pilih">
+                        Pilih Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script type="module">
+            import { dengarMenu, dengarKategori, dengarPengaturan, rupiah, esc } from "./store.js";
+            import { NAMA_LAYANAN } from "./data-awal.js";
+
+            // ===== STATE =====
+            let MENU = [];          // dari Firestore (dikelola admin), realtime
+            let KATEGORI = [];
+            let pengaturan = { tokoBuka: true, pengumuman: "" };
+
+            let kategoriAktif = new URLSearchParams(location.search).get("kategori") || "semua";
+            let kataCari = "";
+
+            // keranjang: { [idMenu]: { nama, harga, qty } }
+            let keranjang = {};
+            let total = 0;
+
+            // ===== FILTER & RENDER MENU =====
+            function renderFilter() {
+                const bar = document.getElementById("filterBar");
+                bar.innerHTML = "";
+
+                const daftar = [{ id: "semua", nama: "Semua" }, ...KATEGORI];
+                // validasi hanya setelah kategori termuat, agar ?kategori= di URL tidak ter-reset
+                if (KATEGORI.length > 0 && !daftar.some(k => k.id === kategoriAktif)) kategoriAktif = "semua";
+
+                daftar.forEach(k => {
+                    const jumlah = MENU.filter(m => m.aktif !== false && (k.id === "semua" || m.kategori === k.id)).length;
+                    const btn = document.createElement("button");
+                    btn.className = "filter-btn" + (k.id === kategoriAktif ? " active" : "");
+                    btn.innerHTML = `${esc(k.nama)}<span class="filter-count">(${jumlah})</span>`;
+                    btn.onclick = () => pilihKategori(k.id);
+                    bar.appendChild(btn);
+                });
+            }
+
+            function pilihKategori(id) {
+                kategoriAktif = id;
+                // simpan kategori di URL tanpa reload, agar bisa di-share / back
+                const url = new URL(location.href);
+                if (id === "semua") url.searchParams.delete("kategori");
+                else url.searchParams.set("kategori", id);
+                history.replaceState(null, "", url);
+
+                renderFilter();
+                renderMenu();
+            }
+
+            function renderMenu() {
+                const grid = document.getElementById("productGrid");
+                grid.innerHTML = "";
+
+                const hasil = MENU.filter(m =>
+                    m.aktif !== false &&
+                    (kategoriAktif === "semua" || m.kategori === kategoriAktif) &&
+                    m.nama.toLowerCase().includes(kataCari)
+                );
+
+                if (hasil.length === 0) {
+                    grid.innerHTML = `<div class="menu-kosong">Menu tidak ditemukan.</div>`;
+                    return;
+                }
+
+                hasil.forEach(m => {
+                    const habis = Number(m.stok) <= 0;
+                    const card = document.createElement("div");
+                    card.className = "product-card" + (habis ? " habis" : "");
+                    card.innerHTML = `
+                        <div class="product-image-wrap">
+                            <img src="${esc(m.gambar)}" alt="${esc(m.nama)}" class="product-image bisa-detail">
+                            ${habis ? `<span class="badge-stok habis">Habis</span>`
+                                    : m.stok <= 5 ? `<span class="badge-stok">Sisa ${m.stok}</span>` : ""}
+                        </div>
+                        <div class="product-info">
+                            <h3>${esc(m.nama)}</h3>
+                            <p>${esc(m.deskripsi)}</p>
+                            <div class="product-footer">
+                                <span class="product-price">${rupiah(m.harga)}</span>
+                                <button class="order-btn" ${habis || !pengaturan.tokoBuka ? "disabled" : ""}>
+                                    ${habis ? "Habis" : "Tambah"}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    card.querySelector("img").onclick = () => {
+                        location.href = "detail-menu.html?id=" + encodeURIComponent(m.id);
+                    };
+                    card.querySelector(".order-btn").onclick = () => tambahKeranjang(m.id);
+                    grid.appendChild(card);
+                });
+            }
+
+            function renderPengumuman() {
+                const box = document.getElementById("pengumuman");
+                let teks = "";
+                if (!pengaturan.tokoBuka) teks = "Mohon maaf, saat ini CHIBBO sedang tutup dan belum menerima pesanan.";
+                else if (pengaturan.pengumuman) teks = pengaturan.pengumuman;
+                box.textContent = teks;
+                box.style.display = teks ? "block" : "none";
+                box.classList.toggle("tutup", !pengaturan.tokoBuka);
+            }
+
+            document.getElementById("cariMenu").addEventListener("input", (e) => {
+                kataCari = e.target.value.trim().toLowerCase();
+                renderMenu();
+            });
+
+            // ===== KERANJANG (satu keranjang untuk semua kategori) =====
+            function sudahPilihLayanan() {
+                return localStorage.getItem("outlet") && localStorage.getItem("layanan");
+            }
+
+            function tambahKeranjang(id) {
+                if (!sudahPilihLayanan()) {
+                    document.getElementById("popupLayanan").classList.add("show");
+                    return;
+                }
+                const m = MENU.find(x => x.id === id);
+                if (!m) return;
+
+                const qtySekarang = keranjang[id]?.qty || 0;
+                if (qtySekarang + 1 > Number(m.stok)) {
+                    alert(`Stok ${m.nama} hanya tersisa ${m.stok}.`);
+                    return;
+                }
+
+                keranjang[id] = { nama: m.nama, harga: m.harga, qty: qtySekarang + 1 };
+                renderKeranjang();
+            }
+
+            function ubahQty(id, delta) {
+                if (!keranjang[id]) return;
+                if (delta > 0) return tambahKeranjang(id);
+                keranjang[id].qty += delta;
+                if (keranjang[id].qty <= 0) delete keranjang[id];
+                renderKeranjang();
+            }
+
+            // Sesuaikan keranjang jika admin mengubah harga / stok / menonaktifkan menu
+            function sinkronKeranjang() {
+                if (MENU.length === 0) return;
+                for (const id in keranjang) {
+                    const m = MENU.find(x => x.id === id);
+                    if (!m || m.aktif === false || m.stok <= 0) {
+                        delete keranjang[id];
+                        continue;
+                    }
+                    keranjang[id].nama = m.nama;
+                    keranjang[id].harga = m.harga;
+                    keranjang[id].qty = Math.min(keranjang[id].qty, m.stok);
+                }
+            }
+
+            function renderKeranjang() {
+                if (!sudahPilihLayanan()) return;
+
+                const daftar = document.getElementById("daftarKeranjang");
+                daftar.innerHTML = "";
+                total = 0;
+                let jumlahMenu = 0;
+
+                for (const id in keranjang) {
+                    const item = keranjang[id];
+                    total += item.harga * item.qty;
+                    jumlahMenu += item.qty;
+
+                    const baris = document.createElement("div");
+                    baris.className = "cart-item";
+                    baris.innerHTML = `
+                        <div>
+                            <strong>${esc(item.nama)}</strong><br>
+                            ${rupiah(item.harga)}
+                        </div>
+                        <div class="qty-box">
+                            <button>-</button>
+                            <span>${item.qty}</span>
+                            <button>+</button>
+                        </div>
+                    `;
+                    const [kurang, tambah] = baris.querySelectorAll("button");
+                    kurang.onclick = () => ubahQty(id, -1);
+                    tambah.onclick = () => ubahQty(id, 1);
+                    daftar.appendChild(baris);
+                }
+
+                if (jumlahMenu === 0) {
+                    daftar.innerHTML = "Belum ada pesanan";
+                }
+
+                document.getElementById("jumlahMenu").textContent = jumlahMenu + " Menu Pesanan";
+                document.getElementById("totalRingkas").textContent = rupiah(total);
+                document.getElementById("totalHarga").textContent = total.toLocaleString("id-ID");
+
+                localStorage.setItem("keranjang", JSON.stringify(keranjang));
+                localStorage.setItem("total", total);
+            }
+
+            // ===== Fungsi yang dipanggil dari atribut onclick di HTML =====
+            window.ubahLayananOutlet = () => { location.href = "order.html"; };
+
+            window.toggleDetail = () => {
+                document.getElementById("detailKeranjang").classList.toggle("show");
+            };
+
+            window.bukaPopupHapus = () => document.getElementById("popupHapus").classList.add("show");
+            window.tutupPopupHapus = () => document.getElementById("popupHapus").classList.remove("show");
+
+            window.hapusMenuSaja = () => {
+                keranjang = {};
+                total = 0;
+                localStorage.removeItem("keranjang");
+                localStorage.removeItem("total");
+                renderKeranjang();
+                window.tutupPopupHapus();
+            };
+
+            window.hapusSemuaData = () => {
+                ["keranjang", "total", "layanan", "outlet", "outletId"].forEach(k => localStorage.removeItem(k));
+                location.reload();
+            };
+
+            window.kePembayaran = () => {
+                if (!pengaturan.tokoBuka) {
+                    alert("Toko sedang tutup.");
+                    return;
+                }
+                if (Object.keys(keranjang).length === 0) {
+                    alert("Keranjang masih kosong.");
+                    return;
+                }
+                localStorage.setItem("keranjang", JSON.stringify(keranjang));
+                localStorage.setItem("total", total);
+                location.href = "pembayaran.html";
+            };
+
+            // ===== INISIALISASI =====
+            const outlet = localStorage.getItem("outlet");
+            const layanan = localStorage.getItem("layanan");
+            const infoPesanan = document.getElementById("infoPesanan");
+
+            if (outlet && layanan) {
+                document.getElementById("namaOutlet").textContent = outlet;
+                document.getElementById("jenisLayanan").textContent = NAMA_LAYANAN[layanan] || layanan;
+                infoPesanan.style.display = "flex";
+                document.getElementById("keranjang").style.display = "block";
+            } else {
+                infoPesanan.style.display = "none";
+                document.getElementById("keranjang").style.display = "none";
+            }
+
+            // keranjang lama (format lama berbasis nama tanpa field "nama" diabaikan)
+            try {
+                const saved = JSON.parse(localStorage.getItem("keranjang") || "{}");
+                for (const id in saved) {
+                    if (saved[id] && saved[id].nama) keranjang[id] = saved[id];
+                }
+            } catch { keranjang = {}; }
+
+            dengarKategori((list) => {
+                KATEGORI = list;
+                renderFilter();
+                renderMenu();
+            });
+
+            dengarMenu((list) => {
+                MENU = list;
+                sinkronKeranjang();
+                renderFilter();
+                renderMenu();
+                renderKeranjang();
+            });
+
+            dengarPengaturan((p) => {
+                pengaturan = p;
+                renderPengumuman();
+                renderMenu();
+            });
+
+            renderKeranjang();
+        </script>
+        <script type="module" src="auth-nav.js"></script>
+    </body>
+</html>

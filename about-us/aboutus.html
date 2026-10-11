@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - CHIBBO</title>
+    <style>
+        /* RESET & BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f6fa;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ========================================================
+           NAVIGATION MENU & GLASSMORPHISM DROPDOWN (SAMA PERSIS)
+           ======================================================== */
+        .main-nav {
+            background-color: #c80909;
+            box-shadow: 0 4px 12px rgba(200, 9, 9, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #fefefe;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ff9f43;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-toggle::after {
+            content: "▲";
+            font-size: 0.6rem;
+            color: #ff9f43;
+            transition: transform 0.2s;
+            transform: rotate(180deg);
+        }
+
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(0deg);
+        }
+
+        .dropdown-menu-panel {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 550px;
+            padding: 24px;
+
+            background: rgba(245, 245, 245, 0.65);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            display: none;
+            z-index: 999;
+            margin-top: 8px;
+        }
+
+        .dropdown-menu-panel::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: transparent;
+        }
+
+        .dropdown:hover .dropdown-menu-panel {
+            display: block;
+        }
+
+        .menu-grid-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+        }
+
+        .menu-box-btn {
+            background-color: #ffffff;
+            color: #c80909 !important;
+            text-align: center;
+            padding: 16px 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .col-3 {
+            grid-column: span 2;
+        }
+
+        .menu-box-btn:hover {
+            background-color: #c80909;
+            color: #ffffff !important;
+            box-shadow: 0 6px 15px rgba(200, 9, 9, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* ========================================================
+           KONTEN HALAMAN ABOUT US 
+           ======================================================== */
+        .about-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200') no-repeat center center/cover;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .about-hero h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .about-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #f0f0f0;
+        }
+
+        .about-content-section {
+            padding: 60px 0 80px 0;
+            background-color: #f8f9fa;
+            flex: 1;
+        }
+
+        /* TWO COLUMNS LAYOUT */
+        .about-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* SIDEBAR NAVIGATION (STICKY) */
+        .about-sidebar {
+            position: sticky;
+            top: 100px;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .sidebar-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px;
+            color: #444444;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: #fdf2f2;
+            color: #c80909;
+        }
+
+        .sidebar-menu li.active {
+            background-color: #ffffff;
+            border-left: 4px solid #c80909;
+        }
+
+        .sidebar-menu li.active a {
+            color: #c80909;
+            padding-left: 20px;
+        }
+
+        .sidebar-menu .arrow {
+            font-size: 0.85rem;
+            color: #cccccc;
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+
+        .sidebar-menu a:hover .arrow,
+        .sidebar-menu li.active .arrow {
+            color: #c80909;
+            transform: translateX(3px);
+        }
+
+        /* MAIN CONTENT AREA */
+        .about-main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .content-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            scroll-margin-top: 100px;
+        }
+
+        .content-card h2 {
+            font-size: 1.8rem;
+            color: #111111;
+            margin-bottom: 24px;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #eaeaea;
+        }
+
+        .content-card h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 60px;
+            height: 2px;
+            background-color: #c80909;
+        }
+
+        .content-card p {
+            color: #555555;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Subsections in Visi Misi */
+        .sub-section {
+            margin-top: 24px;
+            background: #fdfdfd;
+            border-left: 3px solid #c80909;
+            padding: 15px 20px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .sub-section h3 {
+            font-size: 1.15rem;
+            color: #222;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .sub-list {
+            padding-left: 20px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .sub-list li {
+            margin-bottom: 8px;
+        }
+
+        /* Awards Points Style */
+        .awards-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .awards-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .awards-list li::before {
+            content: "🏆";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 1.2rem;
+        }
+
+        .awards-list li strong {
+            color: #111;
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .awards-list li span {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Member Grid & Card */
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .member-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border-color: #c80909;
+        }
+
+        .member-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 18px;
+            border: 3px solid #ffe3e3;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .member-card:hover .member-avatar {
+            border-color: #c80909;
+            transform: scale(1.05);
+        }
+
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .member-name {
+            font-size: 1.15rem;
+            color: #111111;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .member-role {
+            font-size: 0.9rem;
+            color: #c80909;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .member-desc {
+            font-size: 0.9rem;
+            color: #666666;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        /* --- FOOTER STYLE --- */
+        .main-footer {
+            background-color: #c80909;
+            color: #ffffff;
+            padding: 35px 0 20px 0;
+            font-size: 0.8rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .footer-col h3,
+        .footer-col h4 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-col p {
+            margin-bottom: 6px;
+            color: #e0e0e0;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 6px;
+        }
+
+        .footer-col ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #ff9f43;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            color: #dcdcdc;
+            font-size: 0.75rem;
+        }
+
+        /* RESPONSIVE LAYOUT */
+        @media (max-width: 992px) {
+            .about-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .about-sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dropdown-menu-panel {
+                width: 90vw;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .footer-grid,
+            .about-stats {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .about-hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="main-nav">
+        <div class="container nav-container">
+            <a href="dasar.html" class="logo">CHIBBO</a>
+            <ul class="nav-menu">
+                <li><a href="dasar.html">Beranda</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Menu</a>
+
+                    <div class="dropdown-menu-panel">
+                        <div class="menu-grid-container">
+                            <a href="menu.html?kategori=chicken" class="menu-box-btn col-3">Chicken</a>
+                            <a href="menu.html?kategori=snack" class="menu-box-btn col-3">Snack</a>
+                            <a href="menu.html?kategori=dessert" class="menu-box-btn col-3">Dessert</a>
+                            <a href="menu.html?kategori=drink" class="menu-box-btn col-3">Drink</a>
+                            <a href="menu.html?kategori=combo" class="menu-box-btn col-3">Combo Meal</a>
+                            <a href="menu.html?kategori=burger" class="menu-box-btn col-3">Burger</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li><a href="order.html">Order</a></li>
+                <li><a href="aboutus.html" style="color: #ff9f43;">About Us</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="about-hero">
+        <div class="container">
+            <h1>Tentang Kami</h1>
+            <p>Menyajikan kelezatan cita rasa terbaik dengan pelayanan hangat dan kenyamanan yang tak terlupakan sejak
+                awal berdiri.</p>
+        </div>
+    </section>
+
+    <section class="about-content-section">
+        <div class="container">
+            <div class="about-layout">
+                <!-- Kolom Kiri: Sidebar Menu -->
+                <aside class="about-sidebar">
+                    <ul class="sidebar-menu">
+                        <li class="active"><a href="#kegiatan-usaha">Kegiatan Usaha Perusahaan <span
+                                    class="arrow">&gt;</span></a></li>
+                        <li><a href="#visi-misi">Visi Misi Obyektif <span class="arrow">&gt;</span></a></li>
+                        <li><a href="#jaringan">Jaringan CHIBBO Indonesia <span class="arrow">&gt;</span></a></li>
+                        <li><a href="#manajemen">Manajemen & Anggota Kelompok <span class="arrow">&gt;</span></a></li>
+                        <li><a href="#penghargaan">Penghargaan <span class="arrow">&gt;</span></a></li>
+                        <li><a href="#sertifikat-halal">Sertifikat Halal <span class="arrow">&gt;</span></a></li>
+                    </ul>
+                </aside>
+
+                <!-- Kolom Kanan: Konten Utama -->
+                <main class="about-main-content">
+
+                    <!-- 1. KEGIATAN USAHA PERUSAHAAN -->
+                    <section id="kegiatan-usaha" class="content-card">
+                        <h2>Kegiatan Utama & Operasional CHIBBO</h2>
+                        <p>
+                            PT CHIBBO Rasa Indonesia bergerak di bidang industri kuliner cepat saji (<em>quick-service
+                                restaurant</em>) dengan focus utama pada hidangan ayam goreng krispi, burger
+                            berkualitas, aneka camilan inovatif, serta minuman segar. Kegiatan usaha kami mencakup
+                            pengelolaan rantai pasok pasokan bahan baku segar dari petani lokal, standardisasi dapur
+                            terpusat untuk menjaga konsistensi rasa, hingga pengembangan sistem kemitraan gerai di
+                            seluruh wilayah Indonesia. Kami berkomitmen untuk selalu menghadirkan produk makanan yang
+                            higienis, lezat, dan cepat, didukung oleh integrasi teknologi digital pada sistem pemesanan
+                            online untuk memudahkan pelanggan.
+                        </p>
+                    </section>
+
+                    <!-- 2. VISI MISI OBYEKTIF -->
+                    <section id="visi-misi" class="content-card">
+                        <h2>Visi, Misi, dan Tujuan Strategis</h2>
+
+                        <div class="sub-section">
+                            <h3>Visi</h3>
+                            <p>
+                                Menjadi jaringan restoran cepat saji pilihan utama masyarakat Indonesia yang dikenal
+                                karena kelezatan cita rasa otentik, inovasi menu yang berkelanjutan, serta standar
+                                pelayanan prima yang berfokus pada kebahagiaan pelanggan.
+                            </p>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3>Misi</h3>
+                            <ol class="sub-list">
+                                <li>Menyajikan produk kuliner berkualitas tinggi dengan hanya menggunakan bahan-bahan
+                                    segar, halal, dan pilihan terbaik.</li>
+                                <li>Memberikan pelayanan yang hangat, cepat, dan konsisten di setiap gerai pelayanan
+                                    kami.</li>
+                                <li>Memperluas aksesibilitas produk melalui ekspansi gerai yang strategis dan
+                                    optimalisasi layanan pesan antar (<em>delivery</em>).</li>
+                                <li>Menciptakan lingkungan kerja yang positif, kolaboratif, dan mendukung pengembangan
+                                    potensi setiap karyawan.</li>
+                            </ol>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3>Obyektif</h3>
+                            <p>
+                                Mencapai pertumbuhan bisnis yang sehat dan berkelanjutan secara nasional, memperkuat
+                                loyalitas merek (<em>brand loyalty</em>) melalui kepuasan pelanggan 100%, serta
+                                memberikan dampak sosial yang positif bagi masyarakat di sekitar gerai kami.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- 3. JARINGAN CHIBBO INDONESIA -->
+                    <section id="jaringan" class="content-card">
+                        <h2>Jaringan Distribusi dan Gerai</h2>
+                        <p>
+                            Sejak pertama kali menyapa pencinta kuliner, CHIBBO kini telah tumbuh pesat dan
+                            mengoperasikan lebih dari 50 gerai aktif yang tersebar di berbagai kota besar di Indonesia.
+                            Jaringan kami didukung oleh pusat distribusi yang modern guna memastikan distribusi bahan
+                            baku segar berjalan tepat waktu ke setiap dapur gerai. Dengan mengedepankan format gerai
+                            yang nyaman untuk makan di tempat (<em>Dine In</em>), praktis untuk dibawa pulang (<em>Take
+                                Away</em>), serta efisien untuk layanan jalur cepat (<em>Drive Thru</em>), kami siap
+                            melayani dan mendekatkan kelezatan menu CHIBBO ke tengah-tengah keluarga Indonesia kapan
+                            saja.
+                        </p>
+                    </section>
+
+                    <!-- 4. MANAJEMEN & ANGGOTA KELOMPOK -->
+                    <section id="manajemen" class="content-card">
+                        <h2>Tim Manajemen & Pengembang CHIBBO (Kelompok 5)</h2>
+                        <p>
+                            Operasional dan pengembangan platform digital CHIBBO didorong oleh talenta muda kreatif dan
+                            berdedikasi dari Kelompok 5 yang terbagi dalam peran strategis berikut:
+                        </p>
+
+                        <div class="member-grid">
+                            <!-- Anggota 1 -->
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <img src="Person1.jpeg" alt="Anggota 1">
+                                </div>
+                                <h3 class="member-name">Muhammad Irsyad Nashrullah</h3>
+                                <p class="member-role">CEO & Project Manager</p>
+                                <p class="member-desc">Bertanggung jawab penuh atas visi strategis perusahaan, manajemen
+                                    lini masa proyek, dan koordinasi antar divisi.</p>
+                            </div>
+
+                            <!-- Anggota 2 -->
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <img src="Person2.jpeg" alt="Anggota 2">
+                                </div>
+                                <h3 class="member-name">Binar Alif Prabasetya</h3>
+                                <p class="member-role">Lead Front-End Developer</p>
+                                <p class="member-desc">Fokus pada transformasi desain visual menjadi kode HTML/CSS yang
+                                    responsif, interaktif, dan optimal.</p>
+                            </div>
+
+                            <!-- Anggota 3 -->
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <img src="Person3.jpeg" alt="Anggota 3">
+                                </div>
+                                <h3 class="member-name">Sulistyawati Adi Putri</h3>
+                                <p class="member-role">UI/UX Designer</p>
+                                <p class="member-desc">Merancang tata letak, alur pengguna (<em>user flow</em>), dan
+                                    estetika visual halaman web agar memberikan pengalaman terbaik bagi pelanggan.</p>
+                            </div>
+
+                            <!-- Anggota 4 -->
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <img src="Person4.jpeg" alt="Anggota 4">
+                                </div>
+                                <h3 class="member-name">Hernawan Aprilianda Hamzah</h3>
+                                <p class="member-role">Back-End & Database Engineer</p>
+                                <p class="member-desc">Mengelola arsitektur server, logika sistem pemesanan, integrasi
+                                    data login, dan keamanan platform.</p>
+                            </div>
+
+                            <!-- Anggota 5 -->
+                            <div class="member-card">
+                                <div class="member-avatar">
+                                    <img src="Person5.jpeg" alt="Anggota 5">
+                                </div>
+                                <h3 class="member-name">Amira Rizqi Aulia Noeryshanti Hidayat</h3>
+                                <p class="member-role">Content Strategist & Copywriter</p>
+                                <p class="member-desc">Menyusun strategi komunikasi merek, penulisan narasi profil
+                                    perusahaan, dan kurasi konten informatif pada website.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 5. PENGHARGAAN -->
+                    <section id="penghargaan" class="content-card">
+                        <h2>Prestasi dan Apresiasi Kepercayaan</h2>
+                        <ul class="awards-list">
+                            <li>
+                                <strong>Indonesia Best Customer Service Award</strong>
+                                <span>Penghargaan atas komitmen pelayanan prima 24/7 dan kepuasan pelanggan tertinggi di
+                                    kategori restoran cepat saji.</span>
+                            </li>
+                            <li>
+                                <strong>Rising Star Brand in Culinary Industry</strong>
+                                <span>Apresiasi sebagai salah satu merek kuliner dengan pertumbuhan gerai dan inovasi
+                                    digital paling progresif tahun ini.</span>
+                            </li>
+                            <li>
+                                <strong>Eco-Friendly Fast Food Initiative</strong>
+                                <span>Penghargaan atas langkah nyata CHIBBO dalam mengurangi penggunaan kemasan plastik
+                                    sekali pakai di seluruh gerai.</span>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <!-- 6. SERTIFIKAT HALAL -->
+                    <section id="sertifikat-halal" class="content-card">
+                        <h2>Jaminan Kualitas dan Sertifikasi Halal</h2>
+                        <p>
+                            Kenyamanan dan ketenteraman konsumen saat menikmati setiap hidangan di CHIBBO adalah
+                            prioritas utama kami. Oleh karena itu, PT CHIBBO Rasa Indonesia dengan bangga menyatakan
+                            bahwa 100% produk makanan, minuman, serta seluruh rantai pasok bahan baku kami telah resmi
+                            mendapatkan Sertifikat Halal dari Majelis Ulama Indonesia (MUI) dan Badan Penyelenggara
+                            Jaminan Produk Halal (BPJPH). Kami menerapkan Sistem Jaminan Halal (SJH) yang ketat mulai
+                            dari proses pemilihan pemasok, penyimpanan, pengolahan di dapur terpusat, hingga penyajian
+                            akhir di meja pelanggan untuk memastikan kualitas kebersihan dan kehalalan produk yang
+                            konsisten.
+                        </p>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>PT Fast Food Indonesia Tbk</h3>
+                    <p>Alamat: Jl. MT Haryono Kav 7 Jakarta Selatan 12810, Indonesia</p>
+                    <p><strong>Operating hours</strong><br>
+                        Weekday: 08:00 - 20:00<br>
+                        Weekend: 10:00 - 19:00</p>
+                    <p>Telephone: 14022</p>
+                    <p>E-mail: info@kfcindonesia.com</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Layanan</h4>
+                    <ul>
+                        <li><a href="#">Delivery Order</a></li>
+                        <li><a href="#">Dine in</a></li>
+                        <li><a href="#">Take Away</a></li>
+                        <li><a href="#">Catering</a></li>
+                        <li><a href="#">Drive Thru</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Karir</h4>
+                    <ul>
+                        <li><a href="#">Karir</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Info</h4>
+                    <ul>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="aboutus.html">About Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Allergen Info</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 CHIBBO. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuItems = document.querySelectorAll('.sidebar-menu li');
+            const sections = document.querySelectorAll('.content-card');
+
+            // Click handler to update active status
+            const links = document.querySelectorAll('.sidebar-menu a');
+            links.forEach((link, index) => {
+                link.addEventListener('click', (e) => {
+                    menuItems.forEach(item => item.classList.remove('active'));
+                    menuItems[index].classList.add('active');
+                });
+            });
+
+            // Scroll handler for ScrollSpy
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                if (current) {
+                    menuItems.forEach(item => {
+                        item.classList.remove('active');
+                        const link = item.querySelector('a');
+                        if (link.getAttribute('href') === `#${current}`) {
+                            item.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

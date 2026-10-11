@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        /* RESET & BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f6fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 1. TOP BAR / HEADER */
+        .top-bar {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 10px 0;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+        
+        .top-bar a {
+            color: #ddd;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        
+        .top-bar a:hover {
+            color: #ff9f43;
+        }
+
+        /* 2. NAVIGATION MENU */
+        .main-nav {
+            background-color: #c80909;
+            box-shadow: 0 4px 12px rgba(200, 9, 9, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #fefefe;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ff9f43;
+        }
+
+        /* --- UPDATE DESAIN: PREMIUM GLASSMORPHISM & 3 KOLOM SIMETRIS --- */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-toggle::after {
+            content: "▲"; 
+            font-size: 0.6rem;
+            color: #ff9f43; 
+            transition: transform 0.2s;
+            transform: rotate(180deg); 
+        }
+
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(0deg);
+        }
+
+        /* Efek Kaca Transparan Premium (Glassmorphism) */
+        .dropdown-menu-panel {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 550px; /* Lebar optimal untuk susunan 3 kolom sejajar */
+            padding: 24px;
+            
+            /* Trik Glassmorphism */
+            background: rgba(245, 245, 245, 0.65); 
+            backdrop-filter: blur(18px); 
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            display: none; 
+            z-index: 999;
+            margin-top: 8px;
+        }
+
+        /* Jembatan transparan pelindung hover agar tidak bug saat kursor turun */
+        .dropdown-menu-panel::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: transparent;
+        }
+
+        .dropdown:hover .dropdown-menu-panel {
+            display: block;
+        }
+
+        /* Solusi Grid Baru: Berbasis total 6 unit agar pembagian 3 kolom dan 2 kolom seimbang */
+        .menu-grid-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+        }
+
+        /* Desain Baru Tombol: Putih Bersih, Teks Merah, Soft Shadow */
+        .menu-box-btn {
+            background-color: #ffffff;
+            color: #c80909 !important; /* Teks merah khas brand */
+            text-align: center;
+            padding: 16px 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Shadow halus */
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Kelas Pembagi Lebar Tombol */
+        .col-3 {
+    grid-column: span 2;
+}
+
+        /* Efek Interaksi Hover */
+        .menu-box-btn:hover {
+            background-color: #c80909;
+            color: #ffffff !important; /* Teks berbalik menjadi putih */
+            box-shadow: 0 6px 15px rgba(200, 9, 9, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* 3. HERO SECTION & 4. IMAGE */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('images/paket_hemat/paket_petoook.png') no-repeat;
+            background-size: cover;
+            background-position: center;
+            padding: 140px 0 160px 0;
+            margin: 0 0 40px 0;
+            border-radius: 0 0 80px 80px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 3.2rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            line-height: 1.3;
+            font-weight: 800;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 35px;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+            line-height: 1.6;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            background-color: #ff9f43; 
+            color: white;
+            padding: 14px 36px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 8px 20px rgba(255, 159, 67, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .hero-btn:hover {
+            background-color: #ffffff;
+            color: #c80909;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        /* 5. SECONDARY SECTION */
+        .secondary-section {
+            background-color: #e9ecef;
+            padding: 60px 0;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .secondary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        /* SECTION REVIEWER */
+        .reviewer-section {
+            background-color: #fffaf7; /* Soft warm background to make white cards pop */
+            padding: 80px 0;
+            margin-bottom: 40px;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(200, 9, 9, 0.03);
+        }
+
+        .reviewer-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .highlight-red {
+            color: #c80909;
+        }
+
+        .highlight-orange {
+            color: #ff9f43;
+        }
+
+        .reviewer-section > .container > p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.05rem;
+        }
+
+        .reviewer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 25px;
+        }
+
+        .review-card {
+            background-color: #ffffff; /* Clean white background */
+            padding: 30px;
+            border-radius: 16px; /* Smooth rounded corners */
+            border: 1px solid rgba(200, 9, 9, 0.05); /* Very subtle border */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); /* Subtle elegant shadow */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(200, 9, 9, 0.08);
+        }
+
+        .rating-stars {
+            color: #ff9f43; 
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .review-text {
+            font-size: 0.95rem;
+            color: #4a4a4a;
+            margin-bottom: 25px;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .reviewer-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 15px;
+        }
+
+        .reviewer-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%; 
+            object-fit: cover;
+            border: 2px solid #ff9f43;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .reviewer-info h4 {
+            font-size: 0.95rem;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+            font-weight: 700;
+        }
+
+        .reviewer-info span {
+            font-size: 0.8rem;
+            color: #777;
+            font-weight: 500;
+        }
+
+        /* --- FOOTER --- */
+        .main-footer {
+            background-color: #c80909; 
+            color: #ffffff;
+            padding: 35px 0 20px 0;
+            font-size: 0.8rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr; 
+            gap: 25px; 
+            margin-bottom: 25px;
+        }
+
+        .footer-col h3, .footer-col h4 {
+            font-size: 0.9rem; 
+            text-transform: uppercase;
+            margin-bottom: 12px; 
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-col p {
+            margin-bottom: 6px;
+            color: #e0e0e0;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 6px; 
+        }
+
+        .footer-col ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #ff9f43; 
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15); 
+            color: #dcdcdc;
+            font-size: 0.75rem; 
+        }
+
+        /* RESPONSIVE LAYOUT */
+        @media (max-width: 992px) {
+            .reviewer-grid {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+            .dropdown-menu-panel {
+                width: 100%;
+                max-width: 330px;
+                right: -30px;
+                padding: 15px;
+            }
+            .menu-grid-container {
+                grid-template-columns: 1fr;
+            }
+            .col-3, .col-2 {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 80px 0 100px 0;
+                border-bottom-left-radius: 40px;
+                border-bottom-right-radius: 40px;
+            }
+
+            .hero-container {
+                padding: 0 15px;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .secondary-grid, .reviewer-grid, .footer-grid {
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+
+            .nav-menu {
+                display: none; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <div class="container nav-container">
+            <a href="dasar.html" class="logo" style="text-decoration: none; color: #ffffff;">CHIBBO</a>
+            <ul class="nav-menu">
+                <li><a href="dasar.html">Beranda</a></li>
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Menu</a>
+                    <div class="dropdown-menu-panel">
+                        <div class="menu-grid-container">
+                            <a href="menu.html?kategori=chicken" class="menu-box-btn col-3">Chicken</a>
+                            <a href="menu.html?kategori=snack" class="menu-box-btn col-3">Snack</a>
+                            <a href="menu.html?kategori=dessert" class="menu-box-btn col-3">Dessert</a>
+                            <a href="menu.html?kategori=drink" class="menu-box-btn col-3">Drink</a>
+                            <a href="menu.html?kategori=combo" class="menu-box-btn col-3">Combo Meal</a>
+                            <a href="menu.html?kategori=burger" class="menu-box-btn col-3">Burger</a>
+                        </div>
+                    </div>
+                </li>
+                
+                <li><a href="order.html">Order</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1>Paling Renyah,<br>Paling Mantap! Paket PetooOK!</h1>
+                <p>Dapatkan kenikmatan hakiki dengan 5 Pcs Ayam Crispy super renyah dibalur bumbu rahasia CHIBBO + 3 Nasi Hangat pulen. Pesan sekarang selagi hangat!</p>
+                <a href="order.html" class="hero-btn">Mulai Sekarang</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="secondary-section">
+        <div class="container">
+            <h2>Layanan Unggulan Kami</h2>
+            <p>Berbagai kemudahan yang kami siapkan khusus untuk menyukseskan bisnis Anda.</p>
+            
+            <div class="secondary-grid">
+                <div class="feature-card">
+                    <h3>Desain Modern</h3>
+                    <p>Tampilan bersih dan kekinian yang disukai pengguna.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Sangat Cepat</h3>
+                    <p>Optimasi performa tinggi demi kenyamanan akses.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Responsive</h3>
+                    <p>Tampilan tetap rapi dibuka dari laptop maupun smartphone.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reviewer-section">
+        <div class="container">
+            <h2 class="reviewer-title"><span class="highlight-red">APA KATA</span> <span class="highlight-orange">CHIBBO LOVERS?</span></h2>
+            <p>Ulasan jujur dari pelanggan setia yang telah menggunakan layanan kami.</p>
+
+            <div class="reviewer-grid">
+                <div class="review-card">
+                    <div>
+                        <div class="rating-stars">★★★★★</div>
+                        <p class="review-text">"Pelayanan sangat cepat dan ramah. Hasil websitenya sangat memuaskan dan menaikkan penjualan bisnis saya!"</p>
+                    </div>
+                    <div class="reviewer-profile">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop" alt="Andi Wijaya" class="reviewer-avatar">
+                        <div class="reviewer-info">
+                            <h4>Andi Wijaya</h4>
+                            <span>Pemilik Toko Online</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div>
+                        <div class="rating-stars">★★★★★</div>
+                        <p class="review-text">"Desain modern dan sangat mudah diatur bahkan untuk pemula seperti saya. Top banget deh!"</p>
+                    </div>
+                    <div class="reviewer-profile">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop" alt="Budi Santoso" class="reviewer-avatar">
+                        <div class="reviewer-info">
+                            <h4>Budi Santoso</h4>
+                            <span>Freelancer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div>
+                        <div class="rating-stars">★★★★☆</div>
+                        <p class="review-text">"Sangat responsif saat dibuka di handphone. Fitur-fiturnya lengkap dan berjalan dengan lancar tanpa kendala."</p>
+                    </div>
+                    <div class="reviewer-profile">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&auto=format&fit=crop" alt="Citra Lestari" class="reviewer-avatar">
+                        <div class="reviewer-info">
+                            <h4>Citra Lestari</h4>
+                            <span>Digital Marketer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div>
+                        <div class="rating-stars">★★★★★</div>
+                        <p class="review-text">"Sistem keamanannya mantap dan loading halamannya ringan sekali. Highly recommended!"</p>
+                    </div>
+                    <div class="reviewer-profile">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&auto=format&fit=crop" alt="Dewi Kusuma" class="reviewer-avatar">
+                        <div class="reviewer-info">
+                            <h4>Dewi Kusuma</h4>
+                            <span>Pengusaha Kuliner</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div>
+                        <div class="rating-stars">★★★★★</div>
+                        <p class="review-text">"Terima kasih atas bantuan optimasi websitenya. Sekarang bisnis saya jadi terlihat jauh lebih profesional."</p>
+                    </div>
+                    <div class="reviewer-profile">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150&auto=format&fit=crop" alt="Eko Prasetyo" class="reviewer-avatar">
+                        <div class="reviewer-info">
+                            <h4>Eko Prasetyo</h4>
+                            <span>CEO Startup</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div>
+                        <div class="rating-stars">★★★★☆</div>
+                        <p class="review-text">"Fitur kustomisasinya sangat fleksibel. Tim supportnya juga siaga membantu kapan saja dibutuhkan."</p>
+                    </div>
+                    <div class="reviewer-profile">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150&auto=format&fit=crop" alt="Fanny Amelia" class="reviewer-avatar">
+                        <div class="reviewer-info">
+                            <h4>Fanny Amelia</h4>
+                            <span>Blogger</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-col">
+                    <h3>PT Fast Food Indonesia Tbk</h3>
+                    <p>Alamat: Jl. MT Haryono Kav 7 Jakarta Selatan 12810, Indonesia</p>
+                    <p><strong>Operating hours</strong><br>
+                       Weekday: 08:00 - 20:00<br>
+                       Weekend: 10:00 - 19:00</p>
+                    <p>Telephone: 14022</p>
+                    <p>E-mail: info@kfcindonesia.com</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Layanan</h4>
+                    <ul>
+                        <li><a href="#">Delivery Order</a></li>
+                        <li><a href="#">Dine in</a></li>
+                        <li><a href="#">Take Away</a></li>
+                        <li><a href="#">Catering</a></li>
+                        <li><a href="#">Drive Thru</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Karir</h4>
+                    <ul>
+                        <li><a href="#">Karir</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Info</h4>
+                    <ul>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Allergen Info</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 CHIBBO. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="auth-nav.js"></script>
+</body>
+</html>

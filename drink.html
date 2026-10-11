@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Ayam - CHIBBO</title>
+    <style>
+        /* RESET & BASE STYLES */
+        .bayar-btn{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    background:#c80909;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.bayar-btn:hover{
+    background:#a10707;
+}
+
+.bayar-btn:disabled{
+    background:#ccc;
+    cursor:not-allowed;
+}
+
+        .keranjang{
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 80%;
+    max-width: 1000px;
+
+    background: white;
+    padding: 15px 25px;
+
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.15);
+
+    z-index: 9999;
+}
+
+.cart-summary{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.detail-btn{
+    border:none;
+    background:#ff9f43;
+    color:white;
+    padding:8px 16px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.detail-keranjang{
+    display:none;
+    margin-top:15px;
+    border-top:1px solid #eee;
+    padding-top:15px;
+}
+
+.detail-keranjang.show{
+    display:block;
+}
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px solid #eee;
+}
+
+.qty-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.qty-box button{
+    width:30px;
+    height:30px;
+    border:none;
+    border-radius:50%;
+    background:#ff9f43;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.qty-box span{
+    min-width:20px;
+    text-align:center;
+}
+.total {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #c80909;
+}
+        .info-pesanan {
+    width: 100%;
+    background: #fff8e8;
+    border-left: 5px solid #ff9f43;
+    border-radius: 12px;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 15px 25px;
+    margin-bottom: 30px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f6fa;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 1. TOP BAR / HEADER */
+        .top-bar {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 10px 0;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+        
+        .top-bar a {
+            color: #ddd;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        
+        .top-bar a:hover {
+            color: #ff9f43;
+        }
+
+        /* 2. NAVIGATION MENU */
+        .main-nav {
+            background-color: #c80909;
+            box-shadow: 0 4px 12px rgba(200, 9, 9, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #fefefe;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ff9f43;
+        }
+
+        /* --- DROPDOWN GLASSMORPHISM NAVIGATION --- */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-toggle::after {
+            content: "▲"; 
+            font-size: 0.6rem;
+            color: #ff9f43; 
+            transition: transform 0.2s;
+            transform: rotate(180deg); 
+        }
+
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(0deg);
+        }
+
+        .dropdown-menu-panel {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 550px; 
+            padding: 24px;
+            background: rgba(245, 245, 245, 0.65); 
+            backdrop-filter: blur(18px); 
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            display: none; 
+            z-index: 999;
+            margin-top: 8px;
+        }
+
+        .dropdown-menu-panel::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: transparent;
+        }
+
+        .dropdown:hover .dropdown-menu-panel {
+            display: block;
+        }
+
+        .menu-grid-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+        }
+
+        .menu-box-btn {
+            background-color: #ffffff;
+            color: #c80909 !important; 
+            text-align: center;
+            padding: 16px 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .col-3 {
+    grid-column: span 2;
+}
+
+        .menu-box-btn:hover, .menu-box-btn.active {
+            background-color: #c80909;
+            color: #ffffff !important; 
+            box-shadow: 0 6px 15px rgba(200, 9, 9, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* --- MAIN KONTEN: LAYOUT KATALOG PRODUK AYAM --- */
+        .content-section {
+            padding: 50px 0;
+            flex: 1;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #1a1a1a;
+            margin-bottom: 30px;
+            border-left: 5px solid #c80909;
+            padding-left: 15px;
+        }
+
+        /* Grid Item 3 Kolom Sesuai image_a44761.png */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .product-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image-placeholder {
+            width: 100%;
+            height: 200px;
+            background-color: #eaebef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8a8d99;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .product-image {
+    width: 100%;
+    height: 220px; /* kecilkan gambar */
+    object-fit: contain; /* gambar tidak terpotong */
+    padding: 15px;
+    background-color: #ffffff;
+}
+        /* Ikon gambar simulasi placeholder */
+        .product-image-placeholder::before {
+            content: "🖼️";
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        .product-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-info h3 {
+            font-size: 1.2rem;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .product-info p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: #c80909;
+            font-size: 1.1rem;
+        }
+
+        .order-btn {
+    background-color: #ff9f43;
+    color: #ffffff;
+    padding: 8px 18px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+        .order-btn:hover {
+            background-color: #e08528;
+        }
+
+        /* --- FOOTER --- */
+        .main-footer {
+            background-color: #c80909; 
+            color: #ffffff;
+            padding: 35px 0 20px 0;
+            font-size: 0.8rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr; 
+            gap: 25px; 
+            margin-bottom: 25px;
+        }
+
+        .footer-col h3, .footer-col h4 {
+            font-size: 0.9rem; 
+            text-transform: uppercase;
+            margin-bottom: 12px; 
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-col p {
+            margin-bottom: 6px;
+            color: #e0e0e0;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 6px; 
+        }
+
+        .footer-col ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #ff9f43; 
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15); 
+            color: #dcdcdc;
+            font-size: 0.75rem; 
+        }
+
+        /* RESPONSIVE LAYOUT */
+        @media (max-width: 992px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+            .dropdown-menu-panel {
+                width: 100%;
+                max-width: 330px;
+                right: -30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            .secondary-grid, .footer-grid {
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+            .nav-menu {
+                display: none; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <div class="container nav-container">
+            <a href="dasar.html" class="logo">CHIBBO</a>
+            <ul class="nav-menu">
+                <li><a href="dasar.html">Beranda</a></li>
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Menu</a>
+                
+                    <div class="dropdown-menu-panel">
+                        <div class="menu-grid-container">
+                            <a href="ayam.html" class="menu-box-btn col-3">Chicken</a>
+                            <a href="camilan.html" class="menu-box-btn col-3">Snack</a>
+                            <a href="makanan_penutup.html" class="menu-box-btn col-3">Dessert</a>
+                            <a href="drink.html" class="menu-box-btn col-3">Drink</a>
+                            <a href="pakethemat.html" class="menu-box-btn col-3">Combo Meal</a>
+                            <a href="burger.html" class="menu-box-btn col-3">Burger</a>
+                        </div>
+                    </div>
+                </li>
+                
+                <li><a href="order.html">Order</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+   
+    <main class="content-section">
+        <div class="container">
+          
+            <h2 class="section-title">Kategori Menu: Drink</h2>
+            <div class="info-pesanan">
+                <div>
+                    <strong>Outlet:</strong> <span id="namaOutlet">-</span>
+                </div>
+                <div>
+                    <strong>Layanan:</strong> <span id="jenisLayanan">-</span>
+                </div>
+            </div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="images/minuman/Air Mineral .png" alt="Chicken Bucket 8 Pcs" class="product-image">
+                    <div class="product-info">
+                        <h3>Air Mineral</h3>
+                        <p>Ayam goreng dengan balutan tepung bumbu krispi khas CHIBBO yang renyah di luar dan juicy di dalam.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Rp 10.000</span>
+                            <button class="order-btn"
+                            onclick="tambahKeranjang('Air Mineral',10000)">
+                            Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="images/minuman/Chocolate Milkshake.png" alt="Chicken Bucket 8 Pcs" class="product-image">
+                    <div class="product-info">
+                        <h3>Chocolate Milkshake</h3>
+                        <p>Ayam panggang yang diolesi racikan madu murni dan rempah pilihan hingga meresap sempurna.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Rp 15.000</span>
+                            <button class="order-btn"
+                            onclick="tambahKeranjang('Chocolate Milkshake',15000)">
+                            Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="images/minuman/Coca Cola.png" alt="Chicken Bucket 8 Pcs" class="product-image">
+                    <div class="product-info">
+                        <h3>Coca Cola</h3>
+                        <p>Ayam krispi panas yang dimemarkan dengan sambal bawang segar tingkat kepedasan tinggi.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Rp 13.000</span>
+                            <button class="order-btn"
+                            onclick="tambahKeranjang('Coca Cola',13000)">
+                            Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="images/minuman/Fruit tea .png" alt="Chicken Bucket 8 Pcs" class="product-image">
+                    <div class="product-info">
+                        <h3>Fruit Tea</h3>
+                        <p>Potongan ayam krispi tanpa tulang dengan siraman saus creamy salted egg yang gurih.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Rp 11.000</span>
+                            <button class="order-btn"
+                            onclick="tambahKeranjang('Fruit Tea', 11000)">
+                            Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="images/minuman/Iced Lemon Tea .png" alt="Chicken Bucket 8 Pcs" class="product-image">
+                    <div class="product-info">
+                        <h3>Iced Lemon Tea</h3>
+                        <p>Daging ayam panggang berbalut saus mentai kental khas Jepang yang dibakar dengan torch.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Rp 10.000</span>
+                            <button class="order-btn"
+                            onclick="tambahKeranjang('Iced Lemon Tea', 10000)">
+                            Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="images/minuman/Matcha Milkshake.png" alt="Chicken Bucket 8 Pcs" class="product-image">
+                    <div class="product-info">
+                        <h3>Matcha Milkshake</h3>
+                        <p>Potongan ayam dadu mini krispi yang praktis dimakan, cocok dipadukan dengan cocolan saus.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Rp 17.000</span>
+                            <button class="order-btn"
+                            onclick="tambahKeranjang('Matcha Milkshake', 17000)">
+                            Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="images/minuman/Milo .png" alt="Chicken Bucket 8 Pcs" class="product-image">
+                    <div class="product-info">
+                        <h3>Milo</h3>
+                        <p>Ayam empuk tradisional yang dimasak lambat di dalam kuah gulai kental kaya rasa.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Rp 11.000</span>
+                            <button class="order-btn"
+                            onclick="tambahKeranjang('Milo', 11000)">
+                            Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="images/minuman/Pepsi.png" alt="Chicken Bucket 8 Pcs" class="product-image">
+                    <div class="product-info">
+                        <h3>Pepsi</h3>
+                        <p>Kuliner ayam bakar khas dengan sensasi rasa pedas gurih autentik nusantara.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Rp 14.000</span>
+                            <button class="order-btn"
+                            onclick="tambahKeranjang('Pepsi', 14000)">
+                            Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="images/minuman/Sprite.png" alt="Chicken Bucket 8 Pcs" class="product-image">
+                    <div class="product-info">
+                        <h3>Sprite</h3>
+                        <p>Porsi ekstra kulit ayam krispi tipis gurih yang digoreng hingga garing kecokelatan.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Rp 11.000</span>
+                            <button class="order-btn"
+                            onclick="tambahKeranjang('Sprite', 20000)">
+                            Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- product-grid -->
+
+        <div id="keranjang" class="keranjang">
+
+            <div class="cart-summary">
+                <strong id="jumlahMenu">0 Menu Pesanan</strong>
+                <button onclick="toggleDetail()" class="detail-btn">
+                    Detail Pesanan
+                </button>
+            </div>
+        
+            <div class="total">
+                Total: Rp <span id="totalHarga">0</span>
+            </div>
+            
+            <button id="btnBayar" class="bayar-btn" onclick="kePembayaran()" disabled>
+                Lanjut ke Pembayaran
+            </button>
+        
+            <div id="detailKeranjang" class="detail-keranjang">
+                <div id="daftarKeranjang"></div>
+            </div>
+        
+        </div>
+        </div> <!-- container -->
+        </main>
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-col">
+                    <h3>PT Fast Food Indonesia Tbk</h3>
+                    <p>Alamat: Jl. MT Haryono Kav 7 Jakarta Selatan 12810, Indonesia</p>
+                    <p><strong>Operating hours</strong><br>
+                       Weekday: 08:00 - 20:00<br>
+                       Weekend: 10:00 - 19:00</p>
+                    <p>Telephone: 14022</p>
+                    <p>E-mail: info@kfcindonesia.com</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Layanan</h4>
+                    <ul>
+                        <li><a href="#">Delivery Order</a></li>
+                        <li><a href="#">Dine in</a></li>
+                        <li><a href="#">Take Away</a></li>
+                        <li><a href="#">Catering</a></li>
+                        <li><a href="#">Drive Thru</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Karir</h4>
+                    <ul>
+                        <li><a href="#">Karir</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Info</h4>
+                    <ul>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="aboutus.html">About Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Allergen Info</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 CHIBBO. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        let keranjang = {};
+        let total = 0;
+        
+        function tambahKeranjang(nama, harga){
+            if(!keranjang[nama]){
+                keranjang[nama] = { harga: harga, qty: 1 };
+            } else {
+                keranjang[nama].qty++;
+            }
+            renderKeranjang();
+        }
+        
+        function kurangItem(nama){
+            if(!keranjang[nama]) return;
+        
+            keranjang[nama].qty--;
+        
+            if(keranjang[nama].qty <= 0){
+                delete keranjang[nama];
+            }
+        
+            renderKeranjang();
+        }
+        
+        function renderKeranjang(){
+            const daftar = document.getElementById("daftarKeranjang");
+            daftar.innerHTML = "";
+        
+            total = 0;
+            let jumlahMenu = 0;
+        
+            for(let nama in keranjang){
+                let item = keranjang[nama];
+        
+                total += item.harga * item.qty;
+                jumlahMenu += item.qty;
+        
+                daftar.innerHTML += `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${nama}</strong><br>
+                            Rp ${item.harga.toLocaleString("id-ID")}
+                        </div>
+        
+                        <div class="qty-box">
+                            <button onclick="kurangItem('${nama}')">-</button>
+                            <span>${item.qty}</span>
+                            <button onclick="tambahKeranjang('${nama}', ${item.harga})">+</button>
+                        </div>
+                    </div>
+                `;
+            }
+        
+            if(jumlahMenu === 0){
+                daftar.innerHTML = "Belum ada pesanan";
+            }
+        
+            document.getElementById("jumlahMenu").textContent =
+                jumlahMenu + " Menu Pesanan";
+        
+            document.getElementById("totalHarga").textContent =
+                total.toLocaleString("id-ID");
+        
+            document.getElementById("btnBayar").disabled =
+                jumlahMenu === 0;
+        
+            localStorage.setItem("keranjang", JSON.stringify(keranjang));
+            localStorage.setItem("total", total);
+        }
+        
+        function toggleDetail(){
+            document.getElementById("detailKeranjang")
+                .classList.toggle("show");
+        }
+        
+        function kePembayaran(){
+            localStorage.setItem("keranjang", JSON.stringify(keranjang));
+            localStorage.setItem("total", total);
+            window.location.href = "pembayaran.html";
+        }
+        
+        window.onload = function(){
+            const saved = localStorage.getItem("keranjang");
+            const savedTotal = localStorage.getItem("total");
+        
+            if(saved){
+                keranjang = JSON.parse(saved);
+            }
+        
+            if(savedTotal){
+                total = Number(savedTotal);
+            }
+        
+            renderKeranjang();
+        };
+        </script>
+</body>
+</html>

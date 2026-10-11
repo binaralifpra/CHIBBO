@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan Saya - CHIBBO</title>
+    <style>
+        /* RESET & BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f6fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 1. TOP BAR / HEADER */
+        .top-bar {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 10px 0;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+        
+        .top-bar a {
+            color: #ddd;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        
+        .top-bar a:hover {
+            color: #ff9f43;
+        }
+
+        /* 2. NAVIGATION MENU */
+        .main-nav {
+    background-color: #c80909;
+    box-shadow: 0 4px 12px rgba(200, 9, 9, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #fefefe;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.nav-menu a:hover {
+    color: #ff9f43;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dropdown-toggle::after {
+    content: "▲";
+    font-size: 0.6rem;
+    color: #ff9f43;
+    transition: transform 0.2s;
+    transform: rotate(180deg);
+}
+
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(0deg);
+}
+
+.dropdown-menu-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 550px;
+    padding: 24px;
+
+    background: rgba(245, 245, 245, 0.65);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    display: none;
+    z-index: 999;
+    margin-top: 8px;
+}
+
+.dropdown-menu-panel::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: transparent;
+}
+
+.dropdown:hover .dropdown-menu-panel {
+    display: block;
+}
+
+.menu-grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+}
+
+.menu-box-btn {
+    background-color: #ffffff;
+    color: #c80909 !important;
+    text-align: center;
+    padding: 16px 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.2s ease-in-out;
+}
+
+.col-3 {
+    grid-column: span 2;
+}
+
+.menu-box-btn:hover {
+    background-color: #c80909;
+    color: #ffffff !important;
+    box-shadow: 0 6px 15px rgba(200, 9, 9, 0.25);
+    transform: translateY(-2px);
+}
+
+/* ORDER SECTION */
+
+.order-section {
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+    min-height: 70vh;
+}
+
+/* Background Shape */
+
+.order-section::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: rgba(200, 9, 9, 0.08);
+    top: -180px;
+    left: -150px;
+}
+
+.order-section::after {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: rgba(255, 159, 67, 0.12);
+    bottom: -150px;
+    right: -120px;
+}
+
+.order-title {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 2;
+}
+
+.order-title h1 {
+    font-size: 2.5rem;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+}
+
+.order-title p {
+    color: #666;
+    font-size: 1rem;
+}
+
+.order-grid-wrapper {
+    position: relative;
+    z-index: 2;
+}
+
+.order-options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.order-card {
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 24px;
+
+    padding: 40px 30px;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+
+    box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(200, 9, 9, 0.15);
+}
+
+.order-icon-box {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 20px;
+
+    background: #c80909;
+    color: white;
+
+    border-radius: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 2.2rem;
+}
+
+.order-card h3 {
+    font-size: 1.3rem;
+    color: #1a1a1a;
+}
+
+.daftar-pesanan {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+.kosong {
+    text-align: center;
+    color: #666;
+}
+
+.kosong a {
+    color: #c80909;
+    font-weight: 600;
+}
+
+.pesanan-card {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 24px;
+    padding: 24px 28px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+}
+
+.pesanan-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.pesanan-kode {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #1a1a1a;
+}
+
+.pesanan-meta {
+    color: #777;
+    font-size: 0.85rem;
+}
+
+.status-badge {
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.progress {
+    display: flex;
+    margin: 6px 0 20px;
+}
+
+.step {
+    flex: 1;
+    position: relative;
+    text-align: center;
+    font-size: 0.78rem;
+    color: #999;
+}
+
+.step::before {
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: -50%;
+    width: 100%;
+    height: 3px;
+    background: #e3e3e3;
+    z-index: 0;
+}
+
+.step:first-child::before {
+    display: none;
+}
+
+.step .dot {
+    position: relative;
+    z-index: 1;
+    width: 16px;
+    height: 16px;
+    margin: 0 auto 6px;
+    border-radius: 50%;
+    background: #e3e3e3;
+}
+
+.step.aktif {
+    color: #c80909;
+    font-weight: 600;
+}
+
+.step.aktif .dot,
+.step.aktif::before {
+    background: #c80909;
+}
+
+.alasan-batal {
+    background: rgba(200, 9, 9, 0.08);
+    color: #a80707;
+    padding: 12px 14px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.pesanan-items {
+    border-top: 1px dashed #ddd;
+    padding-top: 12px;
+}
+
+.pesanan-item {
+    display: flex;
+    justify-content: space-between;
+    color: #444;
+    margin-bottom: 4px;
+}
+
+.pesanan-total {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #eee;
+    margin-top: 12px;
+    padding-top: 12px;
+}
+
+.pesanan-total strong {
+    color: #c80909;
+    font-size: 1.1rem;
+}
+
+        /* --- UKURAN FOOTER YANG SUDAH DIKECILKAN --- */
+        .main-footer {
+            background-color: #c80909; 
+            color: #ffffff;
+            padding: 35px 0 20px 0;
+            font-size: 0.8rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr; 
+            gap: 25px; 
+            margin-bottom: 25px;
+        }
+
+        .footer-col h3, .footer-col h4 {
+            font-size: 0.9rem; 
+            text-transform: uppercase;
+            margin-bottom: 12px; 
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-col p {
+            margin-bottom: 6px;
+            color: #e0e0e0;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 6px; 
+        }
+
+        .footer-col ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #ff9f43; 
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15); 
+            color: #dcdcdc;
+            font-size: 0.75rem; 
+        }
+
+        /* RESPONSIVE LAYOUT (Untuk HP / Tablet) */
+        @media (max-width: 992px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+        }
+
+        @media (max-width: 768px) {
+            .order-options-grid, .footer-grid {
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+            .order-card {
+                padding: 25px 20px;
+            }
+            .nav-menu {
+                display: none; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <div class="container nav-container">
+            <a href="dasar.html" class="logo" style="text-decoration: none; color: #ffffff;">CHIBBO</a>
+            <ul class="nav-menu">
+                <li><a href="dasar.html">Beranda</a></li>
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Menu</a>
+                
+                    <div class="dropdown-menu-panel">
+                        <div class="menu-grid-container">
+                            <a href="menu.html?kategori=chicken" class="menu-box-btn col-3">Chicken</a>
+                            <a href="menu.html?kategori=snack" class="menu-box-btn col-3">Snack</a>
+                            <a href="menu.html?kategori=dessert" class="menu-box-btn col-3">Dessert</a>
+                            <a href="menu.html?kategori=drink" class="menu-box-btn col-3">Drink</a>
+                            <a href="menu.html?kategori=combo" class="menu-box-btn col-3">Combo Meal</a>
+                            <a href="menu.html?kategori=burger" class="menu-box-btn col-3">Burger</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li><a href="order.html">Order</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="order-section">
+        <div class="container">
+
+            <div class="order-title">
+                <h1>Pesanan Saya</h1>
+                <p>Status pesanan diperbarui otomatis saat diproses oleh outlet.</p>
+            </div>
+
+            <div class="order-grid-wrapper">
+                <div id="daftarPesanan" class="daftar-pesanan">
+                    <p class="kosong">Memuat pesanan...</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-col">
+                    <h3>PT Fast Food Indonesia Tbk</h3>
+                    <p>Alamat: Jl. MT Haryono Kav 7 Jakarta Selatan 12810, Indonesia</p>
+                    <p><strong>Operating hours</strong><br>
+                       Weekday: 08:00 - 20:00<br>
+                       Weekend: 10:00 - 19:00</p>
+                    <p>Telephone: 14022</p>
+                    <p>E-mail: info@kfcindonesia.com</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Layanan</h4>
+                    <ul>
+                        <li><a href="#">Delivery Order</a></li>
+                        <li><a href="#">Dine in</a></li>
+                        <li><a href="#">Take Away</a></li>
+                        <li><a href="#">Catering</a></li>
+                        <li><a href="#">Drive Thru</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Karir</h4>
+                    <ul>
+                        <li><a href="#">Karir</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Info</h4>
+                    <ul>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Allergen Info</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 CHIBBO. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from "./firebase-config.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+        import { collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+        import { rupiah, esc } from "./store.js";
+        import { NAMA_LAYANAN, STATUS_PESANAN } from "./data-awal.js";
+
+        const wadah = document.getElementById("daftarPesanan");
+
+        const ALUR = {
+            dinein:   ["menunggu", "diproses", "siap", "selesai"],
+            takeaway: ["menunggu", "diproses", "siap", "selesai"],
+            delivery: ["menunggu", "diproses", "dikirim", "selesai"]
+        };
+
+        function labelStatus(status, layanan) {
+            if (status === "siap" && layanan === "dinein") return "Siap Disajikan";
+            return STATUS_PESANAN[status]?.label || status;
+        }
+
+        function formatWaktu(ts) {
+            if (!ts) return "-";
+            const d = ts.toDate ? ts.toDate() : new Date(ts);
+            return d.toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" });
+        }
+
+        function render(list) {
+            if (list.length === 0) {
+                wadah.innerHTML = `<p class="kosong">Belum ada pesanan. <a href="order.html">Pesan sekarang</a></p>`;
+                return;
+            }
+
+            wadah.innerHTML = list.map(o => {
+                const alur = ALUR[o.layanan] || ALUR.dinein;
+                const posisi = alur.indexOf(o.status);
+                const batal = o.status === "dibatalkan";
+
+                return `
+                <div class="pesanan-card">
+                    <div class="pesanan-head">
+                        <div>
+                            <div class="pesanan-kode">${esc(o.kode)}</div>
+                            <div class="pesanan-meta">${formatWaktu(o.createdAt)} · ${esc(o.outlet)} · ${esc(NAMA_LAYANAN[o.layanan] || o.layanan)}</div>
+                        </div>
+                        <span class="status-badge" style="background:${STATUS_PESANAN[o.status]?.warna || "#555"}">
+                            ${esc(labelStatus(o.status, o.layanan))}
+                        </span>
+                    </div>
+
+                    ${batal ? `<div class="alasan-batal">Pesanan dibatalkan${o.alasanBatal ? ": " + esc(o.alasanBatal) : "."}</div>` : `
+                    <div class="progress">
+                        ${alur.map((s, i) => `
+                            <div class="step ${i <= posisi ? "aktif" : ""}">
+                                <div class="dot"></div>
+                                <span>${esc(labelStatus(s, o.layanan))}</span>
+                            </div>`).join("")}
+                    </div>`}
+
+                    <div class="pesanan-items">
+                        ${(o.items || []).map(i => `
+                            <div class="pesanan-item">
+                                <span>${i.qty}x ${esc(i.nama)}</span>
+                                <span>${rupiah(i.subtotal)}</span>
+                            </div>`).join("")}
+                    </div>
+
+                    <div class="pesanan-total">
+                        <span>Total (${esc(o.metodePembayaran)})</span>
+                        <strong>${rupiah(o.total)}</strong>
+                    </div>
+                </div>`;
+            }).join("");
+        }
+
+        let berhenti = null;
+
+        onAuthStateChanged(auth, (user) => {
+            berhenti?.();
+            if (!user) {
+                location.href = "login.html?redirect=pesanan-saya.html";
+                return;
+            }
+
+            // Hanya filter userId (tanpa orderBy) agar tidak perlu composite index; diurutkan di browser
+            const q = query(collection(db, "orders"), where("userId", "==", user.uid));
+            berhenti = onSnapshot(q, (snap) => {
+                const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                list.sort((a, b) => (b.createdAt?.toMillis?.() ?? Date.now()) - (a.createdAt?.toMillis?.() ?? Date.now()));
+                render(list);
+            }, (err) => {
+                wadah.innerHTML = `<p class="kosong">Gagal memuat pesanan: ${esc(err.message)}</p>`;
+            });
+        });
+    </script>
+    <script type="module" src="auth-nav.js"></script>
+</body>
+
+</html>

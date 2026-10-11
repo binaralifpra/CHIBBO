@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - CHIBBO</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <!-- MEMUAT -->
+    <div id="layarMemuat" class="layar-tengah">
+        <div class="kartu-login">
+            <div class="logo-besar">CHIBBO</div>
+            <p class="sub">Memuat panel admin...</p>
+        </div>
+    </div>
+
+    <!-- LOGIN ADMIN -->
+    <div id="layarLogin" class="layar-tengah" style="display:none;">
+        <div class="kartu-login">
+            <div class="logo-besar">CHIBBO</div>
+            <p class="sub">Panel Admin</p>
+
+            <div id="pesanLogin" class="pesan-error" style="display:none;"></div>
+
+            <form id="formLogin">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="admin@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-blok">Masuk</button>
+            </form>
+
+            <div class="pemisah">atau</div>
+
+            <button id="loginGoogle" class="btn btn-google btn-blok">
+                <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+                    <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/>
+                    <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+                    <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+                    <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/>
+                </svg>
+                Masuk dengan Google
+            </button>
+
+            <p class="sub" style="margin:20px 0 0;font-size:0.85rem;">
+                <a href="../dasar.html">← Kembali ke website</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- AKSES DITOLAK -->
+    <div id="layarDitolak" class="layar-tengah" style="display:none;">
+        <div class="kartu-login">
+            <div class="logo-besar">CHIBBO</div>
+            <p class="sub">Akses Ditolak</p>
+            <p style="margin-bottom:10px;">
+                Akun <strong id="emailDitolak"></strong> tidak terdaftar sebagai admin.
+            </p>
+            <p id="alasanDitolak" class="sub" style="margin:0 0 20px;font-size:0.85rem;"></p>
+            <button id="keluarDitolak" class="btn btn-blok">Masuk dengan akun lain</button>
+        </div>
+    </div>
+
+    <!-- APLIKASI ADMIN -->
+    <div id="layarApp" class="app" style="display:none;">
+
+        <header class="topbar">
+            <button id="tombolSidebar" class="topbar-ikon" aria-label="Sembunyikan / tampilkan sidebar" title="Sembunyikan / tampilkan sidebar ( [ )">
+                <span class="garis-burger"></span>
+            </button>
+            <a href="#home" class="topbar-logo">CHIBBO <span class="pill-admin">ADMIN</span></a>
+
+            <div class="topbar-kanan">
+                <a href="../dasar.html" target="_blank" class="topbar-link">Lihat Website ↗</a>
+                <a href="#pesanan" class="topbar-ikon notif" title="Pesanan menunggu konfirmasi" aria-label="Pesanan menunggu">
+                    🔔<span id="badgeNotif" class="notif-dot" style="display:none;">0</span>
+                </a>
+                <div class="profil">
+                    <button id="tombolProfil" class="profil-btn" aria-haspopup="true" aria-expanded="false">
+                        <span id="avatarAdmin" class="avatar">A</span>
+                        <span id="namaAdmin" class="profil-nama"></span>
+                        <span class="panah">▾</span>
+                    </button>
+                    <div id="menuProfil" class="profil-menu" style="display:none;">
+                        <div class="profil-info">
+                            <strong id="namaAdmin2"></strong>
+                            <small id="emailAdmin"></small>
+                        </div>
+                        <a href="#admin">🛡️ Kelola Admin</a>
+                        <a href="#pengaturan">⚙️ Pengaturan</a>
+                        <a href="../dasar.html" target="_blank">🌐 Lihat Website</a>
+                        <a href="#" id="tombolKeluar" class="keluar">↩ Keluar</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="app-badan">
+            <aside id="sidebar" class="sidebar">
+                <div class="sidebar-judul">Utama</div>
+                <ul class="nav-admin">
+                    <li><a href="#home" data-hal="home"><span class="ikon">🏠</span><span class="teks">Home</span></a></li>
+                    <li><a href="#dashboard" data-hal="dashboard"><span class="ikon">📊</span><span class="teks">Dashboard</span></a></li>
+                    <li><a href="#pesanan" data-hal="pesanan"><span class="ikon">🧾</span><span class="teks">Pesanan</span><span id="badgePesanan" class="badge-nav" style="display:none;">0</span></a></li>
+                </ul>
+
+                <div class="sidebar-judul">Data Toko</div>
+                <ul class="nav-admin">
+                    <li><a href="#menu" data-hal="menu"><span class="ikon">🍗</span><span class="teks">Menu & Stok</span></a></li>
+                    <li><a href="#kategori" data-hal="kategori"><span class="ikon">🏷️</span><span class="teks">Kategori</span></a></li>
+                    <li><a href="#outlet" data-hal="outlet"><span class="ikon">📍</span><span class="teks">Outlet</span></a></li>
+                    <li><a href="#pelanggan" data-hal="pelanggan"><span class="ikon">👥</span><span class="teks">Pelanggan</span></a></li>
+                </ul>
+
+                <div class="sidebar-judul">Lainnya</div>
+                <ul class="nav-admin">
+                    <li><a href="#laporan" data-hal="laporan"><span class="ikon">📈</span><span class="teks">Laporan</span></a></li>
+                    <li><a href="#admin" data-hal="admin"><span class="ikon">🛡️</span><span class="teks">Kelola Admin</span></a></li>
+                    <li><a href="#pengaturan" data-hal="pengaturan"><span class="ikon">⚙️</span><span class="teks">Pengaturan</span></a></li>
+                </ul>
+
+                <div class="sidebar-kartu">
+                    <strong>Tersinkron 🔄</strong>
+                    <p>Semua perubahan di sini langsung tampil di website pelanggan.</p>
+                    <a href="../menu.html" target="_blank">Buka halaman menu ↗</a>
+                </div>
+            </aside>
+            <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+            <main id="konten" class="konten"></main>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

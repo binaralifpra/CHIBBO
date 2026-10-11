@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHIBBO - Selamat Datang</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --merah: #c80909;
+            --merah-tua: #a80707;
+            --oranye: #ff9f43;
+            --putih: #ffffff;
+        }
+
+        body {
+            min-height: 100vh;
+            color: var(--putih);
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.72)),
+                url('images/paket_hemat/paket_petoook.png') no-repeat center / cover fixed;
+            background-color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Lingkaran dekorasi seperti di halaman login */
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::before {
+            width: 520px;
+            height: 520px;
+            background: rgba(200, 9, 9, 0.35);
+            filter: blur(80px);
+            top: -160px;
+            left: -160px;
+        }
+
+        body::after {
+            width: 420px;
+            height: 420px;
+            background: rgba(255, 159, 67, 0.25);
+            filter: blur(80px);
+            bottom: -140px;
+            right: -120px;
+        }
+
+        .halaman {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 16px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 3.6rem;
+            font-weight: 800;
+            letter-spacing: 6px;
+            text-shadow: 0 4px 20px rgba(200, 9, 9, 0.6);
+            animation: naik 0.7s ease both;
+        }
+
+        .logo span { color: var(--oranye); }
+
+        .garis {
+            width: 70px;
+            height: 4px;
+            border-radius: 4px;
+            background: var(--oranye);
+            margin: 14px auto 22px;
+            animation: naik 0.7s 0.1s ease both;
+        }
+
+        .tagline {
+            font-size: 1.15rem;
+            max-width: 560px;
+            color: rgba(255, 255, 255, 0.92);
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+            margin-bottom: 46px;
+            animation: naik 0.7s 0.2s ease both;
+        }
+
+        .pilihan {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 340px));
+            gap: 28px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .kartu {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 38px 30px 32px;
+            border-radius: 28px;
+            text-decoration: none;
+            color: var(--putih);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s, border-color 0.3s, box-shadow 0.3s;
+            animation: naik 0.7s ease both;
+        }
+
+        .kartu:nth-child(1) { animation-delay: 0.3s; }
+        .kartu:nth-child(2) { animation-delay: 0.4s; }
+
+        .kartu:hover,
+        .kartu:focus-visible {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 28px 55px rgba(0, 0, 0, 0.45);
+            outline: none;
+        }
+
+        .ikon {
+            width: 92px;
+            height: 92px;
+            border-radius: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.6rem;
+            margin-bottom: 6px;
+            transition: transform 0.35s;
+        }
+
+        .kartu:hover .ikon { transform: rotate(-8deg) scale(1.06); }
+
+        .kartu.user .ikon {
+            background: var(--oranye);
+            box-shadow: 0 12px 28px rgba(255, 159, 67, 0.45);
+        }
+
+        .kartu.admin .ikon {
+            background: var(--merah);
+            box-shadow: 0 12px 28px rgba(200, 9, 9, 0.5);
+        }
+
+        .label-kecil {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .kartu h2 {
+            font-size: 1.7rem;
+            font-weight: 800;
+        }
+
+        .kartu p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .tombol {
+            margin-top: 12px;
+            display: inline-block;
+            padding: 13px 34px;
+            border-radius: 30px;
+            font-weight: 700;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .kartu.user .tombol {
+            background: var(--oranye);
+            box-shadow: 0 8px 20px rgba(255, 159, 67, 0.4);
+        }
+
+        .kartu.admin .tombol {
+            background: var(--merah);
+            box-shadow: 0 8px 20px rgba(200, 9, 9, 0.4);
+        }
+
+        .kartu:hover .tombol {
+            background: var(--putih);
+            color: var(--merah);
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 20px 16px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes naik {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        @media (max-width: 720px) {
+            body { background-attachment: scroll; }
+            .logo { font-size: 2.6rem; letter-spacing: 4px; }
+            .tagline { font-size: 1rem; margin-bottom: 32px; }
+            .pilihan { grid-template-columns: minmax(0, 380px); gap: 18px; }
+            .kartu { padding: 28px 22px 26px; }
+            .ikon { width: 76px; height: 76px; font-size: 2.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="halaman">
+        <div class="logo">CHIB<span>BO</span></div>
+        <div class="garis"></div>
+        <p class="tagline">Paling Renyah, Paling Mantap! Silakan pilih halaman yang ingin Anda masuki.</p>
+
+        <div class="pilihan">
+            <a href="dasar.html" class="kartu user">
+                <div class="ikon">🍗</div>
+                <span class="label-kecil">Pelanggan</span>
+                <h2>Website User</h2>
+                <p>Lihat menu, pesan makanan favorit, dan pantau status pesanan Anda.</p>
+                <span class="tombol">Mulai Pesan</span>
+            </a>
+
+            <a href="admin/index.html" class="kartu admin">
+                <div class="ikon">🛡️</div>
+                <span class="label-kecil">Pengelola</span>
+                <h2>Panel Admin</h2>
+                <p>Kelola pesanan, menu, stok, harga, outlet, dan laporan penjualan.</p>
+                <span class="tombol">Masuk Admin</span>
+            </a>
+        </div>
+    </main>
+
+    <footer>&copy; 2026 CHIBBO. All Rights Reserved.</footer>
+
+</body>
+</html>

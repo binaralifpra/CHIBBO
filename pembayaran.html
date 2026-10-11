@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembayaran - CHIBBO</title>
+
+<style>
+    .main-footer {
+    background-color: #c80909;
+    color: white;
+    padding: 35px 0 20px;
+    font-size: .8rem;
+    margin-top: 60px;
+}
+
+.footer-grid {
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1fr;
+    gap:25px;
+    margin-bottom:25px;
+}
+
+.footer-col ul{
+    list-style:none;
+}
+
+.footer-col ul li{
+    margin-bottom:6px;
+}
+
+.footer-col ul li a{
+    color:#e0e0e0;
+    text-decoration:none;
+}
+
+.footer-bottom{
+    text-align:center;
+    padding-top:15px;
+    border-top:1px solid rgba(255,255,255,.15);
+}
+.main-nav {
+    background-color: #c80909;
+    box-shadow: 0 4px 12px rgba(200, 9, 9, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #fefefe;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.nav-menu a:hover {
+    color: #ff9f43;
+}
+
+.dropdown { position: relative; }
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dropdown-toggle::after {
+    content: "▲";
+    font-size: 0.6rem;
+    color: #ff9f43;
+    transition: transform 0.2s;
+    transform: rotate(180deg);
+}
+
+.dropdown:hover .dropdown-toggle::after {
+    transform: rotate(0deg);
+}
+
+.dropdown-menu-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 550px;
+    padding: 24px;
+    background: rgba(245,245,245,.65);
+    backdrop-filter: blur(18px);
+    border-radius: 20px;
+    display: none;
+    z-index: 999;
+    margin-top: 8px;
+}
+
+.dropdown:hover .dropdown-menu-panel {
+    display: block;
+}
+
+.menu-grid-container {
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    gap: 14px;
+}
+
+.menu-box-btn {
+    background: white;
+    color: #c80909 !important;
+    text-align: center;
+    padding: 16px 10px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.col-3 {
+    grid-column: span 2;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+body{
+    background:#f5f6fa;
+}
+
+.payment-header{
+    background:#c80909;
+    padding:18px 0;
+    box-shadow:0 4px 12px rgba(200,9,9,.2);
+}
+
+.header-content{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    color:white;
+    text-decoration:none;
+    font-size:28px;
+    font-weight:700;
+}
+
+.back-btn{
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    padding:10px 16px;
+    border:1px solid rgba(255,255,255,.3);
+    border-radius:10px;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:40px auto;
+}
+
+.judul{
+    margin-bottom:25px;
+    color:#c80909;
+}
+
+.checkout{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:25px;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.card h2{
+    margin-bottom:20px;
+    color:#c80909;
+}
+
+.item{
+    display:flex;
+    justify-content:space-between;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+
+.item:last-child{
+    border-bottom:none;
+}
+
+.nama{
+    font-weight:600;
+}
+
+.qty{
+    color:#777;
+    font-size:14px;
+}
+
+.metode{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.metode label{
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.metode label:hover{
+    border-color:#ff9f43;
+}
+
+.total-box{
+    border-top:2px solid #eee;
+    padding-top:20px;
+}
+
+.total{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.bayar-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#c80909;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.bayar-btn:hover{
+    background:#a80707;
+}
+
+@media(max-width:768px){
+
+    .checkout{
+        grid-template-columns:1fr;
+    }
+
+}
+.pesan-error{
+    display:none;
+    background:rgba(200,9,9,.08);
+    color:#a80707;
+    padding:14px 18px;
+    border-radius:12px;
+    margin-bottom:20px;
+    font-weight:600;
+}
+.info-order{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    background:#fafafa;
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:16px;
+}
+.info-order span{
+    display:block;
+    font-size:.8rem;
+    color:#888;
+}
+.info-order strong{
+    font-size:.95rem;
+    word-break:break-word;
+}
+.field{
+    margin-top:18px;
+}
+.field label{
+    display:block;
+    font-weight:600;
+    margin-bottom:6px;
+}
+.field input,
+.field textarea{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-family:inherit;
+    font-size:.95rem;
+    box-sizing:border-box;
+}
+.field input:focus,
+.field textarea:focus{
+    outline:none;
+    border-color:#c80909;
+    box-shadow:0 0 0 3px rgba(200,9,9,.1);
+}
+.rincian{
+    display:flex;
+    justify-content:space-between;
+    color:#666;
+    margin-bottom:8px;
+}
+.bayar-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+.berhasil{
+    max-width:520px;
+    margin:0 auto;
+    text-align:center;
+}
+.icon-berhasil{
+    width:70px;
+    height:70px;
+    margin:0 auto 16px;
+    border-radius:50%;
+    background:#2f855a;
+    color:white;
+    font-size:2rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.kode{
+    font-size:1.6rem;
+    font-weight:700;
+    color:#c80909;
+    letter-spacing:1px;
+    margin:8px 0 16px;
+}
+.aksi-berhasil{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:20px;
+}
+.aksi-berhasil .bayar-btn{
+    display:block;
+    text-decoration:none;
+    text-align:center;
+}
+.link-kembali{
+    color:#c80909;
+    font-weight:600;
+    text-decoration:none;
+}
+@media (max-width:768px){
+    .info-order{ grid-template-columns:1fr; }
+}
+</style>
+
+</head>
+<body>
+
+    <header class="payment-header">
+    
+        <div class="header-content">
+
+            <a href="dasar.html" class="logo">
+                CHIBBO
+            </a>
+        
+            <a href="javascript:history.back()" class="back-btn">
+                ← Kembali
+            </a>
+        
+        </div>
+    
+    </header>
+    
+    <div class="container">
+
+    <h1 class="judul">Pembayaran Pesanan</h1>
+
+    <div id="pesanError" class="pesan-error"></div>
+
+    <div id="checkout" class="checkout">
+
+        <!-- DETAIL PESANAN -->
+        <div class="card">
+            <h2>Detail Pesanan</h2>
+
+            <div class="info-order">
+                <div><span>Outlet</span><strong id="infoOutlet">-</strong></div>
+                <div><span>Layanan</span><strong id="infoLayanan">-</strong></div>
+                <div><span>Pemesan</span><strong id="infoUser">-</strong></div>
+            </div>
+
+            <div id="detailPesanan"></div>
+
+            <div id="grupAlamat" class="field" style="display:none;">
+                <label for="alamat">Alamat Pengiriman</label>
+                <textarea id="alamat" rows="3" placeholder="Nama jalan, nomor rumah, patokan..."></textarea>
+            </div>
+
+            <div class="field">
+                <label for="telepon">No. HP / WhatsApp</label>
+                <input type="tel" id="telepon" placeholder="08xxxxxxxxxx">
+            </div>
+
+            <div class="field">
+                <label for="catatan">Catatan (opsional)</label>
+                <textarea id="catatan" rows="2" placeholder="Contoh: tanpa saus, extra pedas"></textarea>
+            </div>
+        </div>
+
+        <!-- PEMBAYARAN -->
+        <div class="card">
+            <h2>Metode Pembayaran</h2>
+
+            <div id="metode" class="metode"></div>
+
+            <div class="total-box">
+                <div class="rincian"><span>Subtotal</span><span id="subtotal">Rp 0</span></div>
+                <div class="rincian"><span id="labelPajak">Pajak</span><span id="pajak">Rp 0</span></div>
+                <div class="rincian" id="barisOngkir" style="display:none;"><span>Ongkos Kirim</span><span id="ongkir">Rp 0</span></div>
+                <div class="total">
+                    <span>Total</span>
+                    <span id="totalBayar">Rp 0</span>
+                </div>
+                <button id="tombolBayar" class="bayar-btn">
+                    Bayar Sekarang
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BERHASIL -->
+    <div id="berhasil" class="card berhasil" style="display:none;">
+        <div class="icon-berhasil">✓</div>
+        <h2>Pesanan Berhasil Dibuat!</h2>
+        <p>Kode pesanan Anda:</p>
+        <div id="kodePesanan" class="kode"></div>
+        <p>Pantau status pesanan Anda secara realtime di halaman Pesanan Saya.</p>
+        <div class="aksi-berhasil">
+            <a href="pesanan-saya.html" class="bayar-btn">Lihat Pesanan Saya</a>
+            <a href="menu.html" class="link-kembali">Pesan Lagi</a>
+        </div>
+    </div>
+
+</div>
+
+<script type="module">
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import {
+    doc, collection, runTransaction, serverTimestamp, Timestamp
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { dengarPengaturan, rupiah, esc } from "./store.js";
+import { NAMA_LAYANAN } from "./data-awal.js";
+
+let keranjang = {};
+try { keranjang = JSON.parse(localStorage.getItem("keranjang") || "{}"); } catch {}
+const outlet = localStorage.getItem("outlet");
+const outletId = localStorage.getItem("outletId") || "";
+const layanan = localStorage.getItem("layanan");
+
+let pengaturan = null;
+let user = null;
+
+const pesanError = document.getElementById("pesanError");
+function tampilError(teks) {
+    pesanError.textContent = teks;
+    pesanError.style.display = teks ? "block" : "none";
+    if (teks) window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Wajib pilih layanan/outlet & punya keranjang
+const keranjangValid = Object.values(keranjang).length > 0 && Object.values(keranjang).every(i => i && i.nama);
+if (!outlet || !layanan || !keranjangValid) {
+    location.href = "menu.html";
+}
+
+document.getElementById("infoOutlet").textContent = outlet;
+document.getElementById("infoLayanan").textContent = NAMA_LAYANAN[layanan] || layanan;
+if (layanan === "delivery") {
+    document.getElementById("grupAlamat").style.display = "block";
+}
+
+// Daftar item
+const detail = document.getElementById("detailPesanan");
+for (const id in keranjang) {
+    const item = keranjang[id];
+    detail.innerHTML += `
+        <div class="item">
+            <div>
+                <div class="nama">${esc(item.nama)}</div>
+                <div class="qty">${item.qty} x ${rupiah(item.harga)}</div>
+            </div>
+            <div>${rupiah(item.qty * item.harga)}</div>
+        </div>
+    `;
+}
+
+function hitungBiaya(subtotal) {
+    const pajak = Math.round(subtotal * (Number(pengaturan.pajakPersen) || 0) / 100);
+    const ongkir = layanan === "delivery" ? Number(pengaturan.ongkirDelivery) || 0 : 0;
+    return { pajak, ongkir, total: subtotal + pajak + ongkir };
+}
+
+function tampilTotal() {
+    const subtotal = Object.values(keranjang).reduce((t, i) => t + i.harga * i.qty, 0);
+    const { pajak, ongkir, total } = hitungBiaya(subtotal);
+
+    document.getElementById("subtotal").textContent = rupiah(subtotal);
+    document.getElementById("labelPajak").textContent = `Pajak (${pengaturan.pajakPersen || 0}%)`;
+    document.getElementById("pajak").textContent = rupiah(pajak);
+    document.getElementById("barisOngkir").style.display = layanan === "delivery" ? "flex" : "none";
+    document.getElementById("ongkir").textContent = rupiah(ongkir);
+    document.getElementById("totalBayar").textContent = rupiah(total);
+}
+
+// Metode pembayaran, pajak & ongkir diatur admin
+dengarPengaturan((p) => {
+    pengaturan = p;
+    const wadah = document.getElementById("metode");
+    const dipilih = wadah.querySelector("input:checked")?.value;
+    wadah.innerHTML = "";
+    (p.metodePembayaran || []).forEach((m, i) => {
+        const label = document.createElement("label");
+        label.innerHTML = `<input type="radio" name="bayar"> <span></span>`;
+        label.querySelector("input").value = m;
+        label.querySelector("input").checked = dipilih ? dipilih === m : i === 0;
+        label.querySelector("span").textContent = m;
+        wadah.appendChild(label);
+    });
+    tampilTotal();
+});
+
+// Harus login agar pesanan tercatat di akun
+onAuthStateChanged(auth, (u) => {
+    if (!u) {
+        location.href = "login.html?redirect=pembayaran.html";
+        return;
+    }
+    user = u;
+    document.getElementById("infoUser").textContent = u.displayName || u.email;
+});
+
+function buatKode() {
+    const t = new Date();
+    const tanggal = t.getFullYear().toString().slice(2) +
+        String(t.getMonth() + 1).padStart(2, "0") +
+        String(t.getDate()).padStart(2, "0");
+    const acak = Math.random().toString(36).slice(2, 6).toUpperCase();
+    return `CHB-${tanggal}-${acak}`;
+}
+
+document.getElementById("tombolBayar").addEventListener("click", async () => {
+    tampilError("");
+    if (!user || !pengaturan) return;
+
+    if (!pengaturan.tokoBuka) return tampilError("Mohon maaf, toko sedang tutup.");
+
+    const metode = document.querySelector('input[name="bayar"]:checked')?.value;
+    const alamat = document.getElementById("alamat").value.trim();
+    const telepon = document.getElementById("telepon").value.trim();
+    const catatan = document.getElementById("catatan").value.trim();
+
+    if (!metode) return tampilError("Pilih metode pembayaran.");
+    if (!telepon) return tampilError("Isi nomor HP / WhatsApp.");
+    if (layanan === "delivery" && !alamat) return tampilError("Isi alamat pengiriman.");
+
+    const tombol = document.getElementById("tombolBayar");
+    tombol.disabled = true;
+    tombol.textContent = "Memproses...";
+
+    try {
+        const kode = buatKode();
+        const orderRef = doc(collection(db, "orders"));
+
+        // Transaksi: cek stok & harga terbaru, kurangi stok, lalu simpan pesanan (atomik)
+        await runTransaction(db, async (tx) => {
+            const ids = Object.keys(keranjang);
+            const snaps = await Promise.all(ids.map(id => tx.get(doc(db, "menu", id))));
+
+            const items = snaps.map((snap, i) => {
+                const id = ids[i];
+                const qty = keranjang[id].qty;
+                if (!snap.exists()) {
+                    throw new Error(`Menu "${keranjang[id].nama}" tidak ditemukan. Hapus dari keranjang lalu coba lagi.`);
+                }
+                const m = snap.data();
+                if (m.aktif === false) throw new Error(`Menu "${m.nama}" sedang tidak tersedia.`);
+                if (Number(m.stok) < qty) throw new Error(`Stok "${m.nama}" tinggal ${m.stok}.`);
+                return { id, nama: m.nama, harga: m.harga, qty, subtotal: m.harga * qty, stokLama: Number(m.stok) };
+            });
+
+            const subtotal = items.reduce((t, i) => t + i.subtotal, 0);
+            const { pajak, ongkir, total } = hitungBiaya(subtotal);
+
+            items.forEach(i => tx.update(doc(db, "menu", i.id), { stok: i.stokLama - i.qty }));
+
+            tx.set(orderRef, {
+                kode,
+                userId: user.uid,
+                userNama: user.displayName || user.email.split("@")[0],
+                userEmail: user.email,
+                telepon,
+                outlet,
+                outletId,
+                layanan,
+                alamat: layanan === "delivery" ? alamat : "",
+                catatan,
+                metodePembayaran: metode,
+                statusPembayaran: "lunas",
+                items: items.map(({ stokLama, ...rest }) => rest),
+                subtotal,
+                pajak,
+                ongkir,
+                total,
+                status: "menunggu",
+                riwayat: [{ status: "menunggu", waktu: Timestamp.now() }],
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp()
+            });
+        });
+
+        localStorage.removeItem("keranjang");
+        localStorage.removeItem("total");
+
+        document.getElementById("checkout").style.display = "none";
+        document.querySelector(".judul").style.display = "none";
+        document.getElementById("kodePesanan").textContent = kode;
+        document.getElementById("berhasil").style.display = "block";
+    } catch (err) {
+        console.error(err);
+        const pesan = err.code === "permission-denied"
+            ? "Akses database ditolak. Pastikan Firestore Rules sudah dipasang (lihat firestore.rules)."
+            : err.message;
+        tampilError("Pesanan gagal: " + pesan);
+        tombol.disabled = false;
+        tombol.textContent = "Bayar Sekarang";
+    }
+});
+</script>
+</body>
+</html>
