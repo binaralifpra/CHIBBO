@@ -62,7 +62,7 @@ export function toast(pesan, jenis = "sukses") {
 export function toastError(err, awalan = "Gagal") {
     console.error(err);
     if (err?.code === "permission-denied" && window.CHIBBO_DEMO) {
-        toast("Mode demo: akun ini hanya bisa memproses pesanan. Perubahan lain tidak disimpan.", "error");
+        toast("Mode demo: aksi ini tidak diizinkan untuk akun demo. Perubahan tidak disimpan.", "error");
         return;
     }
     const pesan = err?.code === "permission-denied"
