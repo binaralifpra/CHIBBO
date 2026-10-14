@@ -235,6 +235,9 @@ onAuthStateChanged(auth, async (user) => {
         return;
     }
 
+    window.CHIBBO_DEMO = dataAdmin.demo === true;
+    document.body.classList.toggle("mode-demo", window.CHIBBO_DEMO);
+
     const nama = dataAdmin.nama || user.displayName || user.email.split("@")[0];
     document.getElementById("namaAdmin").textContent = nama.split(" ")[0];
     document.getElementById("namaAdmin2").textContent = nama;
@@ -248,4 +251,10 @@ onAuthStateChanged(auth, async (user) => {
     tampilLayar("app");
     mulaiNotifPesanan();
     bukaHalaman();
+});
+
+// Isi otomatis akun demo di halaman login
+document.getElementById("isiDemo")?.addEventListener("click", () => {
+    document.getElementById("loginEmail").value = "admin@email.com";
+    document.getElementById("loginPassword").value = "12345678";
 });

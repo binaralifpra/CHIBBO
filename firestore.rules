@@ -20,33 +20,49 @@ service cloud.firestore {
         && exists(/databases/$(database)/documents/admins/$(emailSaya()));
     }
 
+    // Admin demo (dokumen admins berisi demo: true) hanya boleh memproses pesanan
+    function isDemo() {
+      return isAdmin() && get(/databases/$(database)/documents/admins/$(emailSaya())).data.get('demo', false) == true;
+    }
+
+    // Admin penuh = admin yang bukan akun demo
+    function isEditor() {
+      return isAdmin() && !isDemo();
+    }
+
     // ===== Akun admin =====
     match /admins/{email} {
       allow read: if masuk() && (isAdmin() || emailSaya() == email);
-      allow write: if isAdmin();
+      allow write: if isEditor();
     }
 
     // ===== Data publik (dibaca website user, diubah admin) =====
     match /kategori/{id} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if isEditor();
     }
 
     match /outlets/{id} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if isEditor();
     }
 
     match /pengaturan/{id} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if isEditor();
     }
 
     match /menu/{id} {
       allow read: if true;
-      allow create, delete: if isAdmin();
-      // Admin bebas mengubah. Pelanggan yang login hanya boleh MENGURANGI stok (saat checkout).
-      allow update: if isAdmin() || (
+      allow create, delete: if isEditor();
+      // Admin penuh bebas mengubah. Admin demo hanya boleh MENAMBAH stok (mengembalikan stok saat pesanan dibatalkan).
+      // Pelanggan yang login hanya boleh MENGURANGI stok (saat checkout).
+      allow update: if isEditor() || (
+        isDemo()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['stok'])
+        && request.resource.data.stok is int
+        && request.resource.data.stok > resource.data.stok
+      ) || (
         masuk()
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['stok'])
         && request.resource.data.stok is int
@@ -59,7 +75,7 @@ service cloud.firestore {
     match /users/{uid} {
       allow read: if isAdmin() || (masuk() && request.auth.uid == uid);
       allow create, update: if masuk() && request.auth.uid == uid;
-      allow delete: if isAdmin();
+      allow delete: if isEditor();
     }
 
     // ===== Pesanan =====
@@ -71,7 +87,13 @@ service cloud.firestore {
         && request.resource.data.total is number
         && request.resource.data.items is list
         && request.resource.data.items.size() > 0;
-      allow update, delete: if isAdmin();
+      // Admin demo hanya boleh mengubah status pesanan (dan catatan yang menyertainya)
+      allow update: if isEditor() || (
+        isDemo()
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['status', 'riwayat', 'updatedAt', 'alasanBatal', 'statusPembayaran'])
+      );
+      allow delete: if isEditor();
     }
   }
 }
